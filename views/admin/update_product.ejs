@@ -1,0 +1,155 @@
+<%- include("../layout/adminheader.ejs") %>
+    <!-- alert-->
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <!-- alart -->
+                <div class="alert alert-warning alert-dismissible fade show d-none row" id="show" role="alert">
+                    <div class="col-10" id="errDisp">
+                        <strong>Oh no!</strong> Something went wrong.
+                    </div>
+                    <div class="col-2 d-flex justify-content-center">
+                    <div class="btn" aria-label="Close" onclick="this.parentElement.parentElement.classList.toggle('d-none') ">&times;</div>
+                    </div>
+                </div>
+            <!-- alart -->
+            <% if(error_msg  && error_msg.length > 0 ){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Oh no!</strong> <%= error_msg %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <%} %>
+            
+            <% if(success_msg  && success_msg.length > 0 ){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Awesome!</strong> <%= success_msg %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <%} %>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row my-3">
+
+
+        <div class="col-md-6 text-capitalize">
+            <div class="mt-5 mx-3 " >
+                <div class="h4 text-dark text-bold bg-gray-500 p-3 ">Update product</div>
+                <form method="post" action="/product/update/<%= product.id %>" >
+                        <div class="row text-capitalize">
+                           
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <input type="hidden" class="form-control " value="<%= product.barcode %>" name="barcode" id="product_name">
+                                    <label for="product_name" class="col-form-label">product Name:</label>
+                                    <input type="text" class="form-control" value="<%= product.name %>" name="pName" id="product_name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="cartonCostPrice" class="col-form-label">carton Cost price:</label>
+                                    <input type="number" class="form-control" value="<%= product.carton_cost_price %>" name="cartonCostPrice" id="cartonCost">
+                                </div>
+                            </div>
+                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="cartonSellingPrice" class="col-form-label">carton selling price:</label>
+                                    <input type="number" class="form-control" value="<%= product.carton_selling_price %>" name="cartonSellingPrice" id="cartonPrice">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="unitPerCarton" class="col-form-label">unit per carton:</label>
+                                    <input type="number" class="form-control" value="<%= product.unit_per_carton %>" name="unitPerCarton" id="unitPerCarton">
+                                </div>
+                            </div>
+                           
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="unitCostPrice" class="col-form-label">Unit cost price:</label>
+                                    <input type="number" class="form-control" value="<%= product.unit_cost_price %>" name="unitCostPrice" id="unitCostPrice">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="unitSellingPrice" class="col-form-label">Unit selling price:</label>
+                                    <input type="number" class="form-control" value="<%= product.unit_selling_price %>" name="unitSellingPrice" id="recipient-name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="quantity" class="col-form-label">quantity:</label>
+                                    <input type="number" class="form-control" value="<%= product.quantity %>" name="quantity" id="quantity">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="treshold" class="col-form-label">treshold:</label>
+                                    <input type="number" class="form-control" value="<%= product.threshold %>" name="treshold" id="treshold">
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="category"  class="col-form-label">Cathegory:</label>
+                                    <select name="category"  class="form-control">
+                                        <% if(categories && categories.length > 0){ %>
+                                            <% categories.forEach((category)=>{ 
+                                                if(category.id == product.category){%>
+                                                    <option value="<%= category.id %>"><%= category.name %></option>
+                                                <%}%>
+                                                <option value="<%= category.id %>"><%= category.name %></option>
+                                            <% }) %>
+                                        <% }else{%>
+                                            <option value="">No categories found</option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="button" onclick="newProduct()" id="addNewProduct">Edit</button>
+                        
+                    </form>    
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="h4 text-dark text-bold bg-gray-500 p-3 my-5 ">Update product image</div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <img src="/uploads/<%= product.image%>" alt="<%= product.name%> image" width="100px" height="100px" style="border-radius: 50%; background-color: rgb(146, 196, 247);" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <form action="/product/updateimage/<%= product.id %>" method="post" enctype="multipart/form-data">
+                            <div class="col-sm-6 my-2">
+                                <label for="product image">product image</label>
+                                <input type="hidden" class="form-control " value="<%= product.barcode %>" name="barcode" id="product_name">
+                                <input type="file" class="form-control form-control-user reg_input my-3"
+                                placeholder="Repeat Password" name="pImage">
+                                <button class="btn btn-primary">
+                                    update profile
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+        </div>        
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

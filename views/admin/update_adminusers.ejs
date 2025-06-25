@@ -1,0 +1,99 @@
+<%- include("../layout/adminheader.ejs") %>
+    <div class="row my-3">
+
+        <!-- alert-->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <% if(error_msg  && error_msg.length > 0 ){ %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Oh no!</strong> <%= error_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+                
+                <% if(success_msg  && success_msg.length > 0 ){ %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Awesome!</strong> <%= success_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-6 text-capitalize">
+            <div class="mt-5 mx-3 " >
+                <div class="h4 text-dark text-bold bg-gray-500 p-3 ">Update product</div>
+                <form method="post" action="/staff/update/<%= staff.id %>" class="form-horizontal">
+                        <div class="row text-capitalize">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="fullname" class="col-form-label">fullname:</label>
+                                    <input type="text" class="form-control" value="<%= staff.fullname %>" name="fname" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="username" class="col-form-label">username:</label>
+                                    <input type="text" class="form-control" value="<%= staff.username %>" name="username" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="col-form-label">email:</label>
+                                    <input type="text" class="form-control" value="<%= staff.email %>" name="email" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="col-form-label">phone:</label>
+                                    <input type="text" class="form-control" value="<%= staff.phone %>" name="mobile" id="">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="role">Role</label>
+                                <select name="role" class="form-control" id="" >
+                                    <option value="<%= staff.role %>"><%= staff.role %></option>
+                                    <option value="staff">staff</option>
+                                    <option value="cashier">cashier</option>
+                                    <option value="manager">manager</option>
+                                    <option value="admin">admin</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender">Gender</label>
+                                <select name="gender" class="form-control" id="" >
+                                    <option value="<%= staff.gender %>"><%= staff.gender %></option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="address" class="col-form-label">location:</label>
+                                    <input type="text" class="form-control" value="<%= staff.location %>" name="address" id="">
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                            <a href="/admin/staff" class="btn btn-secondary" type="button" >Cancel</a>
+                            <button class="btn btn-primary" type="submit" id="">update</button>
+                        
+                    </form>   
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>        
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

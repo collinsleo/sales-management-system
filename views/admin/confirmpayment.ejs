@@ -1,0 +1,95 @@
+<%- include('../layout/adminheader.ejs') %>
+
+<div class="messages">
+    
+    <%- include('../layout/message.ejs') %>
+</div>
+
+<div>
+    <h3 class="text-bold text-dark text-capitalize">
+        payment confirmation
+    </h3>
+
+    <div class="row my-5">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="form p-3  text-capitalize" style="background: white;">
+                <form action="/cart/confirm" method="post">
+                    <h4>confirm Payment</h4>
+                    <small>Payment recap</small>
+                    <table class="table ">
+                        <tr>
+                            <td>total payment</td>
+                            <td id="total">NGN <%= subtotal %></td>
+                        </tr>
+                        <tr>
+                            <td>products:</td>
+                            <td>
+                                [
+                                <% if(cartproducts && cartproducts.length > 0) {
+                                    cartproducts.forEach((product)=>{%>
+                                        <%= product %>
+
+                                <% })
+
+                                }%>
+                                ]
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>payment method</td>
+                            <td><%= paymentMethod %></td>
+                        </tr>
+                        <tr>
+                            <td>cashier</td>
+                            <td><%= user.fullname %></td>
+                        </tr>
+                        <tr>
+                            <td>Change to Return</td>
+                            <td >NGN <span id="balance">0</span></td>
+                        </tr>
+                       
+                       
+                    </table>
+                    <div class="my-3 d-none">
+                        <input type="number" name="total_amount" value="<%= subtotal %>">
+                        <input type="text" name="payment_method" value="<%= paymentMethod %>">
+                    </div>
+                    <div class="my-3">
+                            <p>notes(optional)</p>
+                            <textarea name="note" class="form-control" id=""></textarea>
+                    </div>
+                    <div class="my-3">
+                        <p>cash received</p>
+                        <input type="number" name="amount_received" onkeyup="calculateBalance()" class="form-control" id="amountPaid">
+                    </div>
+                    <div class="my-3">
+                        <button class="btn btn-warning text-capitalize form-control"  onclick="return confirm('Are you sure?') ">confirm Payment</button>
+                    </div>
+                    <div class="my-3">
+                        <a href="/cart" class="btn btn-outline-dark text-capitalize form-control">cancel</a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<script>
+    function calculateBalance(){
+        const totalVal = document.getElementById('total').textContent
+        const balanceVal = document.getElementById('balance')
+        const amountVal = document.getElementById('amountPaid').value
+        const price = totalVal.split(" ")[1]
+        balanceVal.textContent =  Number(amountVal - price) ;
+        changeVal =  Number(amountVal - price) ;
+        if(amountVal < 1){
+            balanceVal.textContent = 0 ;
+        }
+
+    }
+</script>
+<%- include('../layout/adminfooter.ejs') %>
+

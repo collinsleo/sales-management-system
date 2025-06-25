@@ -1,0 +1,80 @@
+<%- include("../layout/adminheader.ejs") %>
+    <div class="row my-3">
+
+        <!-- alert-->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <% if(error_msg  && error_msg.length > 0 ){ %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Oh no!</strong> <%= error_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+                
+                <% if(success_msg  && success_msg.length > 0 ){ %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Awesome!</strong> <%= success_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-6 text-capitalize">
+            <div class="mt-5 mx-3 " >
+                <div class="h4 text-dark text-bold bg-gray-500 p-3 ">Update product</div>
+                <form method="post" action="/expenses/update/<%= expenses.id %>" class="form-horizontal">
+                        <div class="row text-capitalize">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="amount" class="col-form-label">Amount:</label>
+                                    <input type="text" class="form-control" value="<%= expenses.amount %>" name="amount" id="">
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <%
+                                        function formatDateForInput(dateStr) {
+                                            if (!dateStr) return '';
+                                            const d = new Date(dateStr);
+                                            return d.toISOString().slice(0,16);
+                                        }
+
+                                    %>
+                                    <div class="mb-3">
+                                        <label for="start_at" class="col-form-label">Promo Start :</label>
+                                        <input type="datetime-local" value="<%= formatDateForInput(expenses.created_at)%>" class="form-control" name="spent_at" >
+                                    </div>
+                                </div>
+                            </div>
+
+                        
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="reason" class="col-form-label">Reason:</label>
+                                    <textarea class="form-control" name="reason" id=""><%= expenses.reason %></textarea>
+                                </div>
+                            </div>
+                            
+                        </div>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="submit" id="">update</button>
+                        
+                    </form>   
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>        
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

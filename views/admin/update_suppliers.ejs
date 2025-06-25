@@ -1,0 +1,101 @@
+<%- include("../layout/adminheader.ejs") %>
+    <div class="row my-3">
+
+        <!-- alert-->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <% if(error_msg  && error_msg.length > 0 ){ %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Oh no!</strong> <%= error_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+                
+                <% if(success_msg  && success_msg.length > 0 ){ %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Awesome!</strong> <%= success_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-6 text-capitalize">
+            <div class="mt-5 mx-3 " >
+                <div class="h4 text-dark text-bold bg-gray-500 p-3 ">Update Suppliers</div>
+                <form method="post" action="/supplyer/update/<%= supplyers.id %>" >
+                    <div class="row text-capitalize">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                    <label for="product">Product:</label>
+                                <input list="products" name="product" id="product" value="<%= supplyers.product_id %>" class="form-control">
+                                <datalist id="products">
+                                    <% if(products && products.length > 0){%>
+                                        <% products.forEach((item) => {                  
+                                            %>
+                                            <option value="<%= item.id %>"><%= item.name %></option>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <option value="No products available">No products available</option>
+
+                                    <%} %>
+                                
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="supplier_name"  class="col-form-label">supplier Name:</label>
+                                <input type="text" name="sName" id=""  value="<%= supplyers.name  %>" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="company_name"  class="col-form-label">Comapany:</label>
+                                <input type="text" name="sCompany" id=""  value="<%= supplyers.company  %>" class="form-control">
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="company_address"  class="col-form-label">Comapany Address:</label>
+                                <input type="text" name="sAddress" id=""  value="<%= supplyers.location  %>" class="form-control">
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sEmail" class="col-form-label">Email:</label>
+                                <input type="email" class="form-control"  value="<%= supplyers.email  %>" name="sEmail" id="discount">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sPhone" class="col-form-label">Phone :</label>
+                                <input type="number" class="form-control"  value="<%= supplyers.phone  %>" name="sPhone" id="start_at">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            
+                            <button class="btn btn-primary" type="submit" >Add</button>
+                        </div>
+                        
+                    </div>
+                    
+                </form>     
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>        
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

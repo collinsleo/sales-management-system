@@ -1,0 +1,77 @@
+<%- include("../layout/adminheader.ejs") %>
+    <div class="row my-3">
+
+        <!-- alert-->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <% if(error_msg  && error_msg.length > 0 ){ %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Oh no!</strong> <%= error_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+                
+                <% if(success_msg  && success_msg.length > 0 ){ %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Awesome!</strong> <%= success_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-6 text-capitalize">
+            <div class="mt-5 mx-3 " >
+                <div class="h4 text-dark text-bold bg-gray-500 p-3 ">Purchase reversal</div>
+                <form method="post" action="/product/reversal?id=<%= purchase.id %>" class="form-horizontal">
+                        <div class="row text-capitalize">
+                            <div class="col-md-6 d-none ">
+                                <div class="mb-3">
+                                    <label for="product_id" class="col-form-label">product Id:</label>
+                                    <input type="number" class="form-control" value="<%= purchase.product_id %>" name="product_id" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="product_id" class="col-form-label">carton:</label>
+                                    <input type="number" class="form-control" value="<%= purchase.cartons %>" name="carton" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="product_id" class="col-form-label">units_per_carton:</label>
+                                    <input type="number" class="form-control" value="<%= purchase.units_per_carton %>" name="unit_per_carton" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="product_id" class="col-form-label">Reason</label>
+                                    <textarea name="reason" rows="5" class="form-control" id=""></textarea>
+                                </div>
+                            </div>
+                            
+                           
+                            
+                            
+                            
+                        </div>
+                            <a href="/product/purchase" class="btn btn-secondary">Cancel</a>
+                            <button class="btn btn-primary" type="submit" id="">update</button>
+                        
+                    </form>   
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>        
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

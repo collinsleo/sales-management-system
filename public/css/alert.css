@@ -1,0 +1,24 @@
+
+
+.message{
+    position: absolute;
+    margin: auto;
+    width: 300px;
+    height: 100px;
+    background: rgb(162, 205, 255);
+    border: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    animation: 1s slideup ease forwards ;
+}
+
+@keyframes slideup {
+    0%{
+        transform: translateY(100%);
+    }
+    100%{
+        transform: translateY(0);
+    }
+    
+}

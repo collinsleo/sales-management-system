@@ -1,0 +1,30 @@
+    <!--  Product category Modal-->
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary"  id="exampleModalLabel">Add New Category</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                     <!-- buton with &times; -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                 
+                    <form method="post" action="/category/add-category" >
+                        <div class="row text-capitalize">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="category" class="col-form-label">category:</label>
+                                    <input type="text" class="form-control" value="" name="category" id="category">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit" onclick="newProduct()" id="addNewProduct">Add</button>
+                        
+                    </form>        
+                </div>
+            </div>
+        </div>
+    </div>
+

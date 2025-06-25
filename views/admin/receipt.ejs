@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+    <div class="navbar bg-light py-2 px-5">
+          <!-- Sidebar - Brand -->
+        <div class="row w-100" style="display: flex; justify-content: space-between;">
+            <div class="">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">ogbu-oge <sup>shopping</sup></div>
+                </a>
+            </div>
+            <ul class="d-flex" style="list-style: none; flex-wrap: wrap;"  >
+                <a href="/dashboard" class="text-bold text-dark" style="text-decoration: none;"><li class=" mx-2">Dashboard</li></a>
+                <a href="/cashier/product" class="text-bold text-dark" style="text-decoration: none;"><li class=" mx-2">Product</li></a>
+                <a href="/sales" class="text-bold text-dark" style="text-decoration: none;"><li class="nav-item mx-2">Sales</li></a>
+                <a href="/cashier/product/hold" class="text-bold text-dark" style="text-decoration: none;"><li class="nav-item mx-2">Pending Payment</li></a>
+            </ul>
+            <div class="">
+                <div class="btn btn-primary"onclick="window.print()" >Print</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
+            <div class="card">
+                <div class="card-header " style="background: navy; color: aliceblue; font-weight: bolder;">
+                    <h4>OGBU-OGE</h4>
+                </div>
+                <div class="card-body">
+                    <h1 style="color: navy; font-weight: bolder;">RECEIPT</h1>
+                    <span style="text-align: right;" >Date: <%= sales.created_at %></span>
+                    <table class="table text-capitalize">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(userProducts ){
+                                userProducts.forEach((product)=>{ %>
+                                    <tr>
+                                        <td> <%= product.product_name %></td>
+                                        <td>NGN <%= product.selling_price %></td>
+                                        <td>NGN <%= product.total_price %></td>
+                                    </tr>
+                             <%   })
+                            }else{%>
+                                <tr>
+                                    <td colspan="2">No Product</td>
+                                </tr>
+
+                            <%} %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td>Subtotal:</td>
+                                <td>NGN <%= sales.total_amount %></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Paid By:</td>
+                                <td><%= sales.payment_method %></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="card-footer " style="background: navy; color: aliceblue;">
+                    <div class="row">
+                        <div class="col-6">AMOUNT PAID</div>
+                        <div class="col-6">NGN <%= sales.total_amount %></div>
+                    </div>
+                </div>
+                <h4 style="color: navy; font-weight: bolder;" class="p-3" >OGBU-OGE</h4>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    
+</body>
+</html>

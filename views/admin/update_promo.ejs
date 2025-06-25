@@ -1,0 +1,101 @@
+<%- include("../layout/adminheader.ejs") %>
+    <div class="row my-3">
+
+        <!-- alert-->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <% if(error_msg  && error_msg.length > 0 ){ %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Oh no!</strong> <%= error_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+                
+                <% if(success_msg  && success_msg.length > 0 ){ %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Awesome!</strong> <%= success_msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <%} %>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="col-md-6 text-capitalize">
+            <div class="mt-5 mx-3 " >
+                <div class="h4 text-dark text-bold bg-gray-500 p-3 ">Update product</div>
+                <form method="post" action="/promo/update/<%= promoProduct.id %>" class="form-horizontal">
+                        <div class="row text-capitalize">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="product_id" class="col-form-label">product Id:</label>
+                                    <input type="text" class="form-control" value="<%= promoProduct.product_id %>" name="product_id" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="discount_type"  class="col-form-label">discount_type:</label>
+                                    <select name="discount_type"  class="form-control">
+                                        <option value="<%= promoProduct.discount_type %>"><%= promoProduct.discount_type %></option>
+                                        <option value="fiat">Fiat</option>
+                                        <option value="percent">Percentage</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="applied_to"  class="col-form-label">applies_to:</label>
+                                    <select name="applied_to"  class="form-control">
+                                        <option value="<%= promoProduct.applies_to %>"><%= promoProduct.applies_to %></option>
+                                        <option value="unit">unit</option>
+                                        <option value="carton">carton</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <%
+                                        function formatDateForInput(dateStr) {
+                                            if (!dateStr) return '';
+                                            const d = new Date(dateStr);
+                                            return d.toISOString().slice(0,16);
+                                        }
+
+                                    %>
+                                    <label for="discount" class="col-form-label">Discount value:</label>
+                                    <input type="number" value="<%= promoProduct.discount_value %>" class="form-control" name="discount" id="discount">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="start_at" class="col-form-label">Promo Start :</label>
+                                    <input type="datetime-local" value="<%= formatDateForInput(promoProduct.start_at)%>" class="form-control" name="start_at" id="start_at">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="end_at" class="col-form-label">Promo End:</label>
+                                    <input type="datetime-local" value="<%= formatDateForInput(promoProduct.end_at)%>" class="form-control" name="end_at" id="end_at">
+                                </div>
+                            </div>
+                            
+                        </div>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="submit" id="">update</button>
+                        
+                    </form>   
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>        
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

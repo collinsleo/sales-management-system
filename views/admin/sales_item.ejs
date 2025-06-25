@@ -1,0 +1,137 @@
+ <%- include('../layout/adminheader.ejs') %>
+
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                   
+                    <!-- analysis -->
+                      <!-- for sales page -->
+                  
+
+                    <!-- end sales page -->
+                      
+
+                    
+                    <!-- alert-->
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                          <% if(error_msg  && error_msg.length > 0 ){ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Oh no!</strong> <%= error_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                          
+                          <% if(success_msg  && success_msg.length > 0 ){ %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Awesome!</strong> <%= success_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary"> Sales Item DataTables </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>product_id</th>
+                                            <th>product_name</th>
+                                            <th>product_image</th>
+                                            <th>sales_id</th>
+                                            <th>Quantity</th>
+                                            <th>selling_price</th>
+                                            <th>total_cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>product_id</th>
+                                            <th>product_name</th>
+                                            <th>product_image</th>
+                                            <th>sales_id</th>
+                                            <th>Quantity</th>
+                                            <th>selling_price</th>
+                                            <th>total_cost</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% if(sales && sales.length > 0){%>
+                                            <% sales.forEach((product)=>{
+                                                let image = product.image ? product.image: '/undraw_profile.png'
+                                                %>
+
+                                                <tr>
+                                                    <td><%= product.product_id %></td>
+                                                    <td><%= product.name %></td>
+                                                    <td>
+                                                        <img src="/uploads/<%= product.image %>" alt="product image" class="img-fluid" style="width: 50px; height: 50px;">
+                                                       
+                                                    </td>
+                                                    <td><%= product.sale_id %></td>
+                                                    <td><%= product.quantity %></td>
+                                                    <td><%= product.selling_price %></td>
+                                                    <td><%= product.total_price %></td>
+                                                    
+                                                   
+                                                </tr>
+
+                                            <%}) %>
+                                        <% }else{%>
+                                            <tr>
+                                                <td colspan="8" class="text-center ">No products found</td>
+                                            </tr>
+                                        <% } %>                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- ======================================================= -->
+                            <!-- MODULE -->
+    <!-- ======================================================= -->
+
+<%- include('../layout/adminfooter.ejs') %>

@@ -1,0 +1,54 @@
+Correct Workflow for sales:
+Customer's cart is ready (contains list of products to be sold).
+
+You calculate total amount.
+
+Insert into sales table:
+
+Get the total_amount, payment_method, paid_amount, change_given, etc.
+
+After inserting, PostgreSQL returns the new sale_id.
+
+Insert into sale_items table:
+
+For each product in the cart:
+
+Insert with the product_id, quantity, selling_price, sale_id.
+
+Update the products table:
+
+Subtract each quantity sold from the respective product's stock.
+
+
+=-========================================
+        ANALYSIS
+========================================
+
+Basic Counts for the Product Page
+Metric	SQL/Logic Explanation	Purpose / Why It's Useful
+Total Products	SELECT COUNT(*) FROM products;	Know how many products are currently registered
+Total Quantity in Stock	SELECT SUM(quantity) FROM products;	Total items available (even across different products)
+Out of Stock Items	SELECT COUNT(*) FROM products WHERE quantity = 0;	Monitor which products need urgent restocking
+Low Stock Items	SELECT COUNT(*) FROM products WHERE quantity <= threshold;	Prevent future stock-outs, plan purchases
+Number of Active Promotions	SELECT COUNT(*) FROM promo_products WHERE status = 'active';	Track how many promos are currently running
+Products on Promo	SELECT COUNT(DISTINCT product_id) FROM promo_products WHERE status = 'active';	Check how many different products are discounted
+Total Categories (if any)	SELECT COUNT(DISTINCT category) FROM products; (if categorized)	Understand product diversity
+
+✅ Visual Summary (Optional for Dashboard UI)
+Pie Chart: Percentage of low stock, out-of-stock, and in-stock items.
+
+Bar Graph: Quantity per product (top 5/10 best-stocked).
+
+Badge Indicators:
+
+🔴 5 Products Out of Stock
+
+🟠 12 Products Low Stock
+
+🟢 88 Products In Stock
+
+🧠 Bonus: Business-Value Metrics
+Metric	Use Case
+Products with the highest profit margin	Prioritize for promotion/sale
+Products that sold most (requires sales + sale_items)	Shows customer preference
+Total worth of stock (cost_price * quantity)	Evaluate capital locked in inventory

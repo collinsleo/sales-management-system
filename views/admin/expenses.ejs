@@ -1,0 +1,232 @@
+<%- include("../layout/adminheader.ejs") %>
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                   
+                    <!-- analysis -->
+                      <!-- for sales page -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Earnings (year)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Earnings (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Earnings (Daily)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#expensisModal" >Add New Expenses</button>
+                                            <button class="btn btn-outline-primary btn-sm mt-1" >Generate Report</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- end sales page -->
+                      
+
+                    <!-- analysis-->
+                     <%- include('../layout/message.ejs') %>
+                    <!-- analysis-->
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                       <tr>
+                                           <th>id</th>
+                                           <th>amount</th>
+                                           <th>reason</th>
+                                            <th>user_id</th>
+                                           <th>date spent</th>
+                                            <th>action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                           <th>id</th>
+                                           <th>amount</th>
+                                           <th>reason</th>
+                                           <th>user_id</th>
+                                           <th>creatd_at</th>
+                                            <th>action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                         <% if(expenses && expenses.length > 0){%>
+                                            <% expenses.forEach((expenditures)=>{
+                                                %>
+
+                                                <tr>
+                                                    <td><%= expenditures.id %></td>
+                                                    <td><%= expenditures.amount %></td>
+                                                    <td><%= expenditures.reason %></td>
+                                                    <td><%= expenditures.user_id %></td>
+                                                    <td><%= expenditures.created_at %></td>
+                                                   
+                                                   
+                                                    <td>
+                                                        <a href="/expenses/update/<%= expenditures.id %>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                                        <form action="/expenses/delete/<%= expenditures.id %>" method="get" style="display:inline;">
+                                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                        
+                                                    </td>
+                                                </tr>
+
+                                            <%}) %>
+                                        <% }else{%>
+                                            <tr>
+                                                <td colspan="10" class="text-center">No products found</td>
+                                            </tr>
+                                        <% } %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- modals -->
+     <!--  Product Promo Modal-->
+    <div class="modal fade" id="expensisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary"  id="exampleModalLabel">Add New Expenses</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+                    <form method="post" action="/expenses">
+                        <div class="row text-capitalize">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="amount" class="col-form-label">Amount:</label>
+                                    <input type="number" class="form-control" name="amount" id="discount">
+                                </div>                               
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Date" class="col-form-label">Date spent:</label>
+                                    <input type="datetime-local" class="form-control" name="spent_at" id="discount">
+                                </div>                               
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="Date" class="col-form-label">Reason:</label>
+                                    <textarea name="reason" class="form-control" id=""></textarea>
+                                </div>                               
+                            </div>
+                            
+                            
+                        </div>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="submit" id="">Add</button>
+                        
+                    </form>        
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<%- include("../layout/adminfooter.ejs") %>

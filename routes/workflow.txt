@@ -1,0 +1,50 @@
+admin(
+    /====staff====/
+register staffs
+viwe staffs
+update staffs
+delete staff
+ /====product====/
+ register product (activityLog, notification)
+viwe product
+update product (activityLog)
+delete product  (activityLog)
+ /====expence====/
+add expence  (activityLog, notification)
+viwe expence 
+update expence (activityLog)
+delete expence  (activityLog)
+)
+
+manager(
+  /====staff====/
+register staffs
+viwe staffs
+update staffs
+
+ /====product====/
+register product
+viwe product
+update product
+
+
+)
+
+casher(
+  /====product====/
+viwe product
+
+)
+
+staff(
+
+     /====product====/
+register product
+viwe product
+update product
+
+)
+
+user(
+
+)

@@ -1,0 +1,291 @@
+<%- include('../layout/adminheader.ejs') %>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                   
+                    <!-- analysis -->
+                      <!-- for sales page -->
+                    <div class="row">
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                             Product on large quantity</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-product fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                 Product on small quantity</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-product fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Finished Product</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-product fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div data-toggle="modal" data-target="#promoModal" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-percent  fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Add promo
+                                            </div>
+                                            <button class="btn btn-outline-primary btn-sm mt-1" >Generate Report</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- end sales page -->
+                      
+
+                    <!-- alert-->
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                          <% if(error_msg  && error_msg.length > 0 ){ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Oh no!</strong> <%= error_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                          
+                          <% if(success_msg  && success_msg.length > 0 ){ %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Awesome!</strong> <%= success_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                          <th>Name</th>
+                                            <th>discount_type</th>
+                                            <th>applies_to</th>
+                                            <th>discount_value</th>
+                                            <th>start_date</th>
+                                            <th>end_date</th>
+                                            <th>status</th>
+                                            <th>Image</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>discount_type</th>
+                                            <th>applies_to</th>
+                                            <th>discount_value</th>
+                                            <th>start_date</th>
+                                            <th>end_date</th>
+                                            <th>status</th>
+                                            <th>Image</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% if(promoProducts && promoProducts.length > 0){%>
+                                            <% promoProducts.forEach((product)=>{
+                                                let image = product.image ? product.image: 'undraw_profile.png';
+                                                %>
+
+                                                <tr>
+                                                    <td><%= product.name %></td>
+                                                    <td><%= product.discount_type %></td>
+                                                    <td><%= product.applies_to %></td>
+                                                    <td><%= product.discount_value %></td>
+                                                    <td><%= product.start_at %></td>
+                                                    <td><%= product.end_at %></td>
+                                                    <td><%= product.status %></td>
+                                                    <td>
+                                                        <img src="/uploads/<%= image %>" alt="product image" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                    </td>
+                                                    <td>
+                                                        <a href="/promo/update/<%= product.id %>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+                                                        <form action="/promo/delete?promo_id=<%= product.id %>" method="POST" style="display:inline;">
+                                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+
+                                            <%}) %>
+                                        <% }else{%>
+                                            <tr>
+                                                <td colspan="8" class="text-center">No products found</td>
+                                            </tr>
+                                        <% } %>
+                                            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- ======================================================= -->
+                            <!-- MODULE -->
+    <!-- ======================================================= -->
+
+    <!--  Product Promo Modal-->
+    <div class="modal fade" id="promoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary"  id="exampleModalLabel">Add New Promo</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+                    <form method="post" action="/promo">
+                        <div class="row text-capitalize">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="product_id" class="col-form-label">product Id:</label>
+                                    <input type="text" class="form-control" value="<%= product_id %>" name="product_id" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="discount_type"  class="col-form-label">discount_type:</label>
+                                    <select name="discount_type"  class="form-control">
+                                        <option value="fiat">Fiat</option>
+                                        <option value="percent">Percentage</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="applied_to"  class="col-form-label">applies_to:</label>
+                                    <select name="applied_to"  class="form-control">
+                                        <option value="unit">unit</option>
+                                        <option value="carton">carton</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="discount" class="col-form-label">Discount value:</label>
+                                    <input type="number" class="form-control" name="discount" id="discount">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="start_at" class="col-form-label">Promo Start :</label>
+                                    <input type="datetime-local" class="form-control" name="start_at" id="start_at">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="end_at" class="col-form-label">Promo End:</label>
+                                    <input type="datetime-local" class="form-control" name="end_at" id="end_at">
+                                </div>
+                            </div>
+                            
+                        </div>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" type="submit" id="">Add</button>
+                        
+                    </form>        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Product Promo Modal-->
+
+
+
+    
+                
+<%- include('../layout/adminfooter.ejs') %>
