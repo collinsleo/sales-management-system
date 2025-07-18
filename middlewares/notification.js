@@ -32,10 +32,10 @@ async function newSalesNotification(product_id, sales_id) {
 async function productRestockNotification( product_id, action='purchase') {
   if(action === "reversal"){
     const type = 'reversal';
-    const title = 'Purchase Reversal Alert';
-    const message = `A purchase order with ID: ${purchase_id} has been reversed.`;
+    const title = 'Product Reversal Alert';
+    const message = `A product with ID: ${product_id} has been reversed from a purchase.`;
     // send notification
-    await notifications(purchase_id, title, message, type)
+    await notifications(product_id, title, message, type)
 
   }else{
     const type = 'purchase';

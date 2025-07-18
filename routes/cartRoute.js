@@ -21,7 +21,6 @@ router.get('/', isAuthenticated, async (req, res) => {
         const cartproduct = req.session.cart;
         res.locals.carts = cartproduct;
         let productPriceSum = 0;
-        console.log(cartproduct);
         
         if (cartproduct.length > 0){
             cartproduct.forEach(product => {
@@ -36,6 +35,22 @@ router.get('/', isAuthenticated, async (req, res) => {
     
 })
 
+
+router.get('/remove/:id', isAuthenticated, (req, res) => {
+    const id = parseInt(req.params.id);
+    console.log(req.session.cart);
+    
+    // Clear the cart
+   
+    if (req.session.cart && req.session.cart.length > 0) {
+        req.session.cart = req.session.cart.filter(item => item.id !== id) 
+        
+        req.flash('success_msg', 'one item removed successfully');
+    } else {
+        req.flash('error_msg', 'you have an empty cart already');
+    }
+    res.redirect('/cart');
+})
 
 router.get('/clear', isAuthenticated, (req, res) => {
     // Clear the cart
@@ -134,7 +149,9 @@ router.post('/checkout', isAuthenticated, [body('payment').notEmpty().withMessag
 })
 
 router.get('/confirm', authorizeRoles('admin', 'manager', 'cashier'), (req,res)=>{
-    const {payment}=req.query
+    const {payment}=req.query;
+    
+
    
 
     res.render('admin/confirmPayment.ejs', {paymentMethod : payment})
@@ -168,8 +185,8 @@ router.post('/confirm', authorizeRoles('admin', 'manager', 'cashier'), async(req
     }else{
         //insert to sales table
         const salesquery = await db.query(
-            'INSERT INTO sales (user_id, user_role, total_amount, payment_method, paid_amount, change_given, customer_type, customer_name, note) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
-            [user_id, user_role, total_amount, payment_method, amount_received, change,customer_type,customer_name, note], 
+            'INSERT INTO sales (user_id, user_role, total_amount, payment_method, paid_amount, change_given, customer_type, customer_name, note, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+            [user_id, user_role, total_amount, payment_method, amount_received, change,customer_type,customer_name, note, 'completed'], 
         )
         if(salesquery.err){
             console.error("Error inserting into sales table: ", salesquery.err.message);
@@ -183,13 +200,13 @@ router.post('/confirm', authorizeRoles('admin', 'manager', 'cashier'), async(req
         const cartProduct = req.session.cart;
         
         cartProduct.forEach( async product => {
-            const {productId, quantity, price, applyto} = product;
+            const {productId, quantity, price, applyto, cost} = product;
 
 
             //insert to sales_products table
             db.query(
-                'INSERT INTO sale_items (sale_id, product_id, quantity, selling_price) VALUES ($1, $2, $3, $4)',
-                [sales_id, productId, quantity, price],
+                'INSERT INTO sale_items (sale_id, product_id, quantity, selling_price, apply_to, cost_price) VALUES ($1, $2, $3, $4, $5, $6)',
+                [sales_id, productId, quantity, price,applyto, cost],
                 (err,result)=>{
                     if(err){
                         console.error("Error inserting into sales_products: ", err.message);

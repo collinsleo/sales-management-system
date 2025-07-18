@@ -52,3 +52,23 @@ Metric	Use Case
 Products with the highest profit margin	Prioritize for promotion/sale
 Products that sold most (requires sales + sale_items)	Shows customer preference
 Total worth of stock (cost_price * quantity)	Evaluate capital locked in inventory
+
+
+//new learning
+const today = new Date();
+                                const saleDate = new Date(saleAnalysis.sale_date);
+                                let isToday = today.getFullYear() === saleDate.getFullYear() &&
+                                                today.getMonth() === saleDate.getMonth() &&
+                                                today.getDate() === saleDate.getDate();
+                                let amount = Number(saleAnalysis.total_sales_amount).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' });
+                                isToday = 1 == 1;// this is just to test the card for today
+                                if(isToday) { %>
+
+
+
+                                Metric	Caption Example
+Total Sales	"Total Sales (Today)"
+COGS	"Cost of Goods Sold (Today)"
+Gross Profit	"Gross Profit (Today)"
+Expenses	"Expenses (Today)"
+Net Profit	"Net Profit (Today)"

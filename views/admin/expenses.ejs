@@ -17,8 +17,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (year)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                 Expenses (Today)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(expensesAnalysis.todayExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -36,8 +36,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                Expenses (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(expensesAnalysis.monthExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -54,8 +54,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Daily)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                Expenses (overall/Year)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(expensesAnalysis.yearExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -71,7 +71,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#expensisModal" >Add New Expenses</button>
-                                            <button class="btn btn-outline-primary btn-sm mt-1" >Generate Report</button>
+                                            <!-- <button class="btn btn-outline-primary btn-sm mt-1" >Generate Report</button> -->
                                         </div>
                                         
                                     </div>
@@ -131,11 +131,14 @@
                                                    
                                                     <td>
                                                         <a href="/expenses/update/<%= expenditures.id %>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                                        <form action="/expenses/delete/<%= expenditures.id %>" method="get" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </form>
+                                                        <%if(user.role == 'admin'){%>
+
+                                                            <form action="/expenses/delete/<%= expenditures.id %>" method="get" style="display:inline;">
+                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        <%}%>
                                                         
                                                     </td>
                                                 </tr>

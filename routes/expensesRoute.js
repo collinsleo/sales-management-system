@@ -7,6 +7,7 @@ const {isAuthenticated, authorizeRoles, is_staff} = require('../middlewares/auth
 const activityLog = require('../middlewares/activitylogs.js');
 const {notifications, expenceNotification} = require('../middlewares/notification.js');
 const moment = require('moment');
+const {tableCountAnalysis} = require('../middlewares/analysis.js')
 
 
 
@@ -15,8 +16,10 @@ const moment = require('moment');
 // =================================
 // sales 
 // =================================
-router.get('/', authorizeRoles('admin', 'manager'),  (req, res) => {
+router.get('/', authorizeRoles('admin', 'manager'), tableCountAnalysis,  (req, res) => {
    try{
+        const expensesAnalysis = res.locals.tableCount;
+
          db.query('SELECT * FROM expenses where status = $1',['active'], (err, results) => {
               if (err) {
                 console.error('Error fetching sales:', err);
@@ -28,7 +31,7 @@ router.get('/', authorizeRoles('admin', 'manager'),  (req, res) => {
                     expense.created_at = moment(new Date(expense.created_at)).format("Do-MMMM-YYYY, h:mm A");
                    
                 })
-              res.render('admin/expenses.ejs', { expenses: results.rows });
+              res.render('admin/expenses.ejs', { expenses: results.rows, expensesAnalysis });
          });
    }catch(err){
        console.error(err);

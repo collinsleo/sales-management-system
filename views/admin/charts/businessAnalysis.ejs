@@ -1,0 +1,218 @@
+<%- include('../../layout/adminheader.ejs') %>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- alert-->
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                          <% if(error_msg  && error_msg.length > 0 ){ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Oh no!</strong> <%= error_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                          
+                          <% if(success_msg  && success_msg.length > 0 ){ %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Awesome!</strong> <%= success_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Net Profit Trend</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="netProfitChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                    
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6 class="m-0 font-weight-bold text-primary"> BUSINESS SUMMARY DATATABLE </h6>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <img src="/uploads/undraw_profile.png" alt="product image" class="img-thumbnail" style="width: 50px; height: 50px;">
+                                    <div class="mx-3 text-bold text-uppercase h4 text-dark">ogbu-oge</div>
+                                    <!-- <div class="sidebar-brand-icon rotate-n-15"> -->
+                                    <!-- <div class="rotate-n-15">
+
+                                        <i class="fas fa-laugh-wink"></i>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                          <th>Day</th>
+                                            <th>Total Sales</th>
+                                            <th>Total cost price</th>
+                                            <th>Gross</th>
+                                            <th>Total expences</th>
+                                            <th>Net Profit</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                          <th>Day</th>
+                                            <th>Total Sales</th>
+                                            <th>Total cost price</th>
+                                            <th>Gross</th>
+                                             <th>Total expences</th>
+                                            <th>Net Profit</th>                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% if(businessAnalysis && businessAnalysis.length > 0){%>
+                                            <% businessAnalysis.forEach((sales)=>{
+                                                %>
+
+                                                <tr>
+                                                    <td><%= sales.day %></td>
+                                                    <td><%= sales.total_sales %></td>
+                                                   
+                                                    <td><%= sales.cogs %></td>
+                                                    <td><%= sales.gross_profit %></td>
+                                                    <td><%= sales.total_expenses %></td>
+                                                    <% if(sales.netProfit < 0) {%>
+                                                        <td class="text-danger"><%= sales.net_profit %></td>
+                                                    <% }else{%>
+                                                            <td><%= sales.net_profit %></td>
+                                                    <%}%>
+                                                                                                     
+                                                    
+                                                </tr>
+
+                                            <%}) %>
+                                        <% }else{%>
+                                            <tr>
+                                                <td colspan="9" class="text-center ">No products found</td>
+                                            </tr>
+                                        <% } %>                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<script>
+  // Prepare data from your businessAnalysis array
+  const businessAnalysis = <%- JSON.stringify(businessAnalysis) %>;
+
+  // Get current month and year
+    const now = new Date();
+    const currentMonth = now.getMonth(); // 0-indexed (0 = January)
+    const currentYear = now.getFullYear();
+
+    // Filter for only days in the current month
+    const thisMonthData = businessAnalysis.filter(row => {
+    const date = new Date(row.day);
+    return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+    });
+
+    
+    // Prepare chart data
+    const labels = thisMonthData.map(row => row.day);
+    const netProfits = thisMonthData.map(row => {
+    if (typeof row.net_profit === 'string') {
+        return Number(row.net_profit.replace(/[₦,]/g, ''));
+    }
+    return row.net_profit;
+    });
+  // Extract dates and net profits (remove currency formatting for chart)
+//   const labels = businessAnalysis.map(row => row.day);
+  
+
+  console.log(labels, netProfits);
+  
+
+  const ctx = document.getElementById('netProfitChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Net Profit',
+        data: netProfits,
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0,0,120,0.1)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Net Profit (₦)' }
+        },
+        x: {
+          title: { display: true, text: 'Date' }
+        }
+      }
+    }
+  });
+</script>
+
+<%- include('../../layout/adminfooter.ejs') %>

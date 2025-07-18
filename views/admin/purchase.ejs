@@ -104,10 +104,15 @@
                                                     <td><%= product.status %></td>
                                                     
                                                     <td>
-                                                        <a href="/product/reversal?id=<%= product.id %>" class="btn btn-warning text-dark btn-sm mt-1 mx-3" >
+                                                        <a href="/product/reversal?id=<%= product.id %>" title="reversal button" class="btn btn-warning text-dark btn-sm mt-1 mx-3" >
                                                             <i class="fas fa-undo fa-sm fa-fw mr-2 text-dark-400"></i>
                                                              Revise
-                                                        </div>
+                                                        </a>
+                                                        <% if(product.status == 'reverse' ){%>
+                                                            <button type="button" title="<%= product.note %>" class="btn btn-success text-dark btn-sm mt-1 mx-3" >
+                                                             Reason
+                                                            </button>
+                                                        <% } %>
                                                     </td>
                                                 </tr>
 

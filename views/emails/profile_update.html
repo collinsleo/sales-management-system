@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        text-transform: capitalize;
+        color: black;
+      }
+      button{
+        padding: 5px;
+        outline: none;
+        border-radius: 3px;
+        color: azure;
+        background-color: dodgerblue;
+      }
+      h2{
+        font-weight: bold;
+        padding: 10px;
+        color: dodgerblue;
+      }
+      .title{
+        color: dodgerblue;
+        font-weight: bold;
+        font-size: 18px;
+      }
+    </style>
+</head>
+<body>
+  <h2>Ogbu-oge</h2><hr><br><br>
+
+
+  <p class="title">Profile Updated</p><br>
+  <h3>Hello <%= username %> </h3>
+  <p>
+    You have successfully changed your profile details on Ogbu-oge Store.<br>
+    if you didn't take this action please contact the cutomer care : 
+    <a href="<%=  redirect_link %>">
+      <button >contact us</button>
+    </a>
+  </p>
+  
+</body>
+</html>

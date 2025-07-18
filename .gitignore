@@ -4,3 +4,5 @@ node_modules/
 /config/
 dist/ 
 test.js
+/workflow.txt
+/documentation

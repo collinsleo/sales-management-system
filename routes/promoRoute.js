@@ -17,7 +17,7 @@ router.get('/', authorizeRoles('admin', 'manager', 'staff', 'cashier') , async(r
 
         sql = 'SELECT products.id as product_id,products.name, products.image, product_promos.* FROM product_promos join products ON product_promos.product_id = products.id order by product_promos.id desc';
     }else{
-        sql = `SELECT products.id as product_id,products.name, products.image, product_promos.* FROM product_promos join products ON product_promos.product_id = products.id WHERE product_promos.id = ${product_id} order by product_promos.id desc`;
+        sql = `SELECT products.id as product_id,products.name, products.image, product_promos.* FROM product_promos join products ON product_promos.product_id = products.id WHERE product_promos.product_id = ${product_id} order by product_promos.id desc`;
     }
 
     await db.query(sql, (err, results) => {
@@ -125,7 +125,7 @@ router.post('/update/:id', authorizeRoles('admin','manager'), validatePromo, asy
         if (is_existing.rows.length > 0 && is_existing.rows[0].end_at > new Date()) {         
         
             // update the new promotion into the database
-            const sql = 'UPDATE product_promos SET  applies_to = $1, discount_type = $2, discount_value = $3, start_at = $4, end_at = $5 WHERE id = $6 VALUES ($1, $2, $3, $4, $5, $6)';
+            const sql = 'UPDATE product_promos SET  applies_to = $1, discount_type = $2, discount_value = $3, start_at = $4, end_at = $5 WHERE id = $6';
             await db.query(sql, [applied_to, discount_type, discount, start_at, end_at, id])
             
             // Send activity log after successful update

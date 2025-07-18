@@ -7,14 +7,15 @@ function isAuthenticated(req, res, next) {
 }
 
 //checking for a cathegory user
-function authorizeRoles(cathegory) {
+function authorizeRoles(...cathegory) {
     return function(req, res, next) {
-        if (req.isAuthenticated() && req.user.role.includes(cathegory)) {
+        if (req.isAuthenticated() && cathegory.includes(req.user.role)) {
             return next();
         }
         res.redirect('/auth/admin');
     };
 }
+
 
 
 

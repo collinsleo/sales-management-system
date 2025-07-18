@@ -5,13 +5,14 @@ const { body, validationResult } = require('express-validator');
 const moment = require('moment');
 const {isAuthenticated, authorizeRoles, is_staff} = require('../middlewares/authntication.js'); // Assuming you have an authentication middleware
 const activityLog = require('../middlewares/activitylogs.js');
+const {cashierSalesAnalysis} = require('../middlewares/analysis.js')
 
 
 
 // =================================
 // sales 
 // =================================
-router.get('/', authorizeRoles('admin', 'manager','cashier'), (req, res) => {
+router.get('/',authorizeRoles('admin', 'cashier','manager'), cashierSalesAnalysis, (req, res) => {
    try{
          db.query('SELECT * FROM sales where status = $1',['completed'], async(err, results) => {
               if (err) {
@@ -23,8 +24,14 @@ router.get('/', authorizeRoles('admin', 'manager','cashier'), (req, res) => {
               results.rows.forEach(sale => {
                 sale.created_at = moment(sale.created_at).format('YYYY-MM-DD HH:mm:ss');
               })
-
-              res.render('admin/sales.ejs', { sales: results.rows });
+              
+              res.render('admin/sales.ejs', 
+                { 
+                    sales: results.rows, cashierAnalysis: 
+                    res.locals.cashierSalesAnalysis[0], 
+                    pendingSales : res.locals.pendingSales,
+                    paymentBreakdown: res.locals.paymentBreakdown, 
+                    user: req.user });
          });
    }catch(err){
        console.error(err);

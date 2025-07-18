@@ -5,14 +5,26 @@ const { check, validationResult } = require('express-validator');
 const validateCategory = require('../middlewares/validatecategory');
 const activityLog = require('../middlewares/activitylogs.js') 
 const { isAuthenticated, authorizeRoles, is_staff } = require('../middlewares/authntication');
+const {cartegoryProfitAnalysis} = require('../middlewares/analysis.js')
 
 
 
 // Show category page
-router.get('/', is_staff, async (req, res) => {
+router.get('/', authorizeRoles('admin','manager','cashier','staff') , cartegoryProfitAnalysis,  async (req, res) => {
     try {
-        const { rows } = await db.query('SELECT * FROM categories ORDER BY id DESC');
-        res.render('admin/categories.ejs', { categories: rows });
+        const cartegoryprofit = res.locals.categoryProfit;
+        const { rows } = await db.query(`
+             SELECT
+                c.id AS id,
+                c.name AS name,
+                count(p.id) as product_count 
+                FROM categories c
+                LEFT
+                JOIN products p ON c.id = p.category_id
+                GROUP BY c.id, C.name
+                ORDER BY product_count DESC;
+            `);
+        res.render('admin/categories.ejs', { categories: rows, cartegoryprofit});
     } catch (error) {
         console.error('Error fetching categories:', error);
         req.flash('error_msg', 'Error fetching categories');
@@ -24,7 +36,7 @@ router.get('/', is_staff, async (req, res) => {
 // ====================================
 // product category
 // ====================================
-router.post('/add-category',is_staff, validateCategory,async (req, res)=>{
+router.post('/add-category',authorizeRoles('admin','manager','staff'), validateCategory,async (req, res)=>{
     try {
         const errors = validationResult(req);
         const error = []
@@ -48,7 +60,7 @@ router.post('/add-category',is_staff, validateCategory,async (req, res)=>{
             } else {
                 // Insert category into the database
                 await db.query('INSERT INTO categories (name) VALUES ($1)', [categoryName]);
-                await activityLog(`added new category ${categoryName}`, req)
+                await activityLog(`added new category ${categoryName} by ${req.user.username} with id ${req.user.id}`, req)
 
                 req.flash('success_msg', 'Category added successfully');
                 return res.redirect('/category');
@@ -65,7 +77,7 @@ router.post('/add-category',is_staff, validateCategory,async (req, res)=>{
 // ====================================
 
 
-router.post('/update', is_staff, validateCategory,async (req, res)=>{
+router.post('/update', authorizeRoles('admin','manager','staff'), validateCategory,async (req, res)=>{
     try {
         const {categoryId, category} = req.body
         const errors = validationResult(req);

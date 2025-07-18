@@ -15,8 +15,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                             Product on large quantity</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            Total Product </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= productAnalysis.product_count %></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-product fa-2x text-gray-300"></i>
@@ -33,8 +33,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                 Product on small quantity</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                 Product on thresholds</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= productAnalysis.thresholds %></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-product fa-2x text-gray-300"></i>
@@ -52,7 +52,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Finished Product</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= productAnalysis.outOfStock %></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-product fa-2x text-gray-300"></i>
@@ -127,7 +127,6 @@
                                             <th>carton_price</th>
                                             <th>Unit_price</th>
                                             <th>Quantity</th>
-                                            <th>Promo</th>
                                             <th>Image</th>
                                             <th>Action</th>
                                         </tr>
@@ -140,7 +139,6 @@
                                             <th>carton_price</th>
                                             <th>Unit_price</th>
                                             <th>Quantity</th>
-                                            <th>Promo</th>
                                             <th>Image</th>
                                             <th>Action</th>
                                         </tr>
@@ -149,29 +147,41 @@
                                         <% if(products && products.length > 0){%>
                                             <% products.forEach((product)=>{
                                                 let image = product.image ? product.image : '/upload/undraw_profile.png';
-                                                %>
 
-                                                <tr>
+                                                
+                                                %>
+                                                <% if(product.status == 'inactive'){%>
+                                                    <tr style="background-color: rgb(252, 225, 225);">
+
+                                                <% }else{ %>
+                                                    <tr>
+
+                                                <% } %>
                                                     <td><%= product.category_id %></td>
                                                     <td><%= product.name %></td>
                                                     <td><%= product.barcode %></td>
                                                     <td><%= product.carton_selling_price %></td>
                                                     <td><%= product.unit_selling_price %></td>
                                                     <td><%= product.quantity %></td>
-                                                    <td><%= product.promo ? product.promo : 'No' %></td>
                                                     <td>
                                                         <img src="/uploads/<%= image %>" alt="product image" class="img-thumbnail" style="width: 50px; height: 50px;">
                                                     </td>
                                                     <td>
+                                                        <% if(product.status == 'inactive' && user.role == 'admin' || user.role == 'manager' ){%>
+                                                            <a href="/product/resolve/<%= product.id %>" class="btn btn-sm btn-info">resolve</a>
+                                                        <% }else{%>
                                                         <a href="/product/<%= product.id %>" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
                                                         <a href="/product/update/<%= product.id %>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                                        <form action="/product/delete/<%= product.id %>" method="POST" style="display:inline;">
-                                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </form>
                                                         <a href="/promo?product_id=<%= product.id %>" class="btn btn-sm btn-primary"><i class="fas fa-percent"></i></a>
-                                                        <a href="/product/purchase?id=<%= product.id %>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i></div>
+                                                        <a href="/product/purchase?id=<%= product.id %>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i></a>
+                                                        <%if(user.role == 'admin'){%>
+
+                                                            <form action="/product/delete/<%= product.id %>" method="POST" style="display:inline;">
+                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        <%}}%>
                                                     </td>
                                                 </tr>
 
@@ -218,29 +228,6 @@
     <!-- ======================================================= -->
                             <!-- MODULE -->
     <!-- ======================================================= -->
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
 
     <!-- Add Product Modal-->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -314,7 +301,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="treshold" class="col-form-label">treshold:</label>
+                                    <label for="treshold" class="col-form-label">threshold:</label>
                                     <input type="number" class="form-control" name="treshold" id="treshold">
                                 </div>
                             </div>
@@ -350,116 +337,7 @@
     </div>
 
 
-    <!-- Update Product Modal -->
-    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary"  id="exampleModalLabel">New Product Form</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- alart -->
-                       <div class="alert alert-warning alert-dismissible fade show d-none row" id="show" role="alert">
-                           <div class="col-10" id="errDisp">
-                               <strong>Oh no!</strong> Something went wrong.
-                           </div>
-                           <div class="col-2 d-flex justify-content-center">
-                           <div class="btn" aria-label="Close" onclick="this.parentElement.parentElement.classList.toggle('d-none') ">&times;</div>
-                           </div>
-                       </div>
-                   <!-- alart -->
-                    <form method="get" action="" enctype="multipart/form-data">
-                        <div class="row text-capitalize">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">product Name:</label>
-                                    <input type="text" class="form-control" name="pName" id="product_name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">carton Cost price:</label>
-                                    <input type="number" class="form-control" name="cartonCost" id="cartonCost">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">unit per carton:</label>
-                                    <input type="text" class="form-control" name="unitPerCarton" id="unitPerCarton">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">carton selling price:</label>
-                                    <input type="text" class="form-control" name="cartonPrice" id="cartonPrice">
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">Unit cost price:</label>
-                                    <input type="text" class="form-control" name="unitCostPrice" id="unitCostPrice">
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">Unit selling price:</label>
-                                    <input type="text" class="form-control" name="unitSellingPrice" id="recipient-name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">quantity:</label>
-                                    <input type="text" class="form-control" name="quantity" id="quantity">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">treshold:</label>
-                                    <input type="text" class="form-control" name="treshold" id="treshold">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">is_promo:</label>
-                                    <input type="checkbox" value="True" name="is_promo" class="" id="recipient-name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <button class="btn btn-primary" type="button" onclick="newProduct()" id="addNewProduct">Edit Product</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </form> 
-                    <hr>
-                    <h5 class="text-multed">Edit Product Image</h5>
-                    <form action="" action="" enctype="multipart/form-data">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">product image:</label>
-                                    <input type="file" name="img_product" class="form-control"  id="recipient-name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <button class="btn btn-primary" type="submit" id="addNewProduct">Edit Image</button>  
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </form>       
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
 <%- include('../layout/modals.ejs') %>

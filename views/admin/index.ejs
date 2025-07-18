@@ -18,43 +18,11 @@
                     <!-- alert -->
 
                     <!-- Content Row -->
+                    <% if(currentUser.role === 'admin' || currentUser.role === 'manager' ){%>
+
                     <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (year)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="p-2 h6 text-dark">
+                               Daily Profit / Sales Analysis 
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
@@ -63,110 +31,425 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Daily)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Net profit (Today)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.todayGrossProfit - tableAnalysis.todayExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        
-                        <!-- Pending Requests Card Example -->
+                        <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Finished Product</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Sales Amount (Today)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.todaySales).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-product fa-2x text-gray-300"></i>
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Expenses (Today)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.todayExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Number of sales (Today)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.todaySalesCount) %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- monthly -->
+                         <div class="p-2 h6 text-dark">
+                               Monthly Profit / Sales Analysis 
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Net profit (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.monthGrossProfit - tableAnalysis.monthExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4 align-items-center">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Sales Amount (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.monthsSales).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Total Expenses (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.monthExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Number of sales (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.monthsSalesCount) %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                   <% } %> 
+
 
                     <!-- Content Row -->
-
+                    <% if(currentUser.role === 'admin'){%>
                     <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
+                        <div class="col-md-8">
                             <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Year</a>
-                                            <a class="dropdown-item" href="#">Monthly</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Daily</a>
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Net Profit Trend (overall business strength)</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="netProfitChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-2 h4 text-dark">
+                                Overall sales Analysis 
+                            </div>
+                             <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-12 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Cost of goods (Yearly)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.yearcogs).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                            </div>
+                            <div class="col-xl-12 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    gross_profit (yearly)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.yearGrossProfit).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-12 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Total Expenses (Yearly)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.yearExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Net Profit (Yearly)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.yearGrossProfit - tableAnalysis.yearExpenses).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                    <%}%>
+
+
+                    <div class="row">
+                        <div class="p-2 h4 text-dark">
+                            system users 
+                        </div>
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="row">
+                                <% if(tableAnalysis.totaladmin && tableAnalysis.totaladmin.length > 0 ){
+                                    tableAnalysis.totaladmin.forEach((staff)=>{%>
+
+                                        <div class="col-xl-4 col-md-6 mb-4">
+                                            <div class="card border-left-success shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                Total <%= staff.role %></div>
+                                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(staff.count) %></div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <% })%>
+                                        <div class="col-xl-4 col-md-6 mb-4">
+                                            <div class="card border-left-success shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                       Total Users</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.users) %></div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-md-6 mb-4">
+                                            <div class="card border-left-success shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                       Total Supplyer</div>
+                                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.supplyer) %></div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <%} %>                            
+         
+                            </div>
+                            <div class="row">
+                                <div class="p-2 h4 text-dark">
+                                    product Analysis 
+                                </div>
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Total Product</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.product_count) %></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Product On Thresholds</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.thresholds) %></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Out Of Stock</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.outOfStock) %></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        product Category</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.categories) %></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        current product on payment Delay</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.currentproducthold) %></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        product on promo</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><%= Number(tableAnalysis.productPromo_count) %></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
 
                         <!-- Pie Chart -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Product Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">refresh</a>
-                                            
+                                    
+                                        <div class="card shadow mb-4">
+                                            <div class="card-header py-3">
+                                                <h6 class="m-0 font-weight-bold text-primary">Daily Profit Trend</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="dailyProfitChart"></canvas>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
                                 <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> large
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> small
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> finished
-                                        </span>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -224,38 +507,49 @@
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Top 5 Selling Products</h6>
                                 </div>
                                 <div class="card-body">                                
                                     <div id="carouselExampleIndicators" class="carousel slide mt-2" data-bs-ride="carousel">
                                         <div class="carousel-indicators">
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-label="Slide 1"></button>
+                                             
+
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 2"></button>
                                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="active" aria-current="true" aria-label="Slide 2"></button>
                                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 3"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 3"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 3"></button>
                                         </div>
                             
                                         <div class="carousel-inner">
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100" alt="First slide" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22800%22%20height%3D%22400%22%20preserveAspectRatio%3D%22none%22%20viewBox%3D%220%200%20800%20400%22%3E%3Cpath%20fill%3D%22%23777%22%20d%3D%22M0%200h800v400H0z%22%2F%3E%3Ctext%20x%3D%22285.922%22%20y%3D%22217.7%22%20fill%3D%22%23555%22%20font-family%3D%22Helvetica%2Cmonospace%22%20font-size%3D%2240pt%22%20font-weight%3D%22400%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fsvg%3E">
-                                            <div class="carousel-caption d-none d-md-block">
-                                            <h5>First slide label</h5>
-                                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item active">
+                                            <% if(bestproducts && bestproducts.length > 0){
+                                                bestproducts.forEach((product)=>{ %>
+
+                                                    <div class="carousel-item">
+                                                        <img class="d-block w-100" alt="First slide" src="/uploads/<%= product.image %>">
+                                                        <div class="carousel-caption d-none d-md-block">
+                                                        <h5><%= product.name %></h5>
+                                                        <p>quantity of sales made <%= product.total_quantity_sold %></p>
+                                                        </div>
+                                                    </div>
+                                                <% })%>
+                                                    <div class="carousel-item active">
+                                                        <img class="d-block w-100" alt="First slide" width="100%" height="50%" src="/uploads/<%= bestproducts[0].image %>">
+                                                        <div class="carousel-caption d-none d-md-block">
+                                                        <h5><%= bestproducts[0].name %> hy</h5>
+                                                        <p>quantity of sales made <%= bestproducts[0].total_quantity_sold %></p>
+                                                        </div>
+                                                    </div>
+                                            <%} %>
+                                        <!-- <div class="carousel-item active">
                                             <img class="d-block w-100" alt="Second slide" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22800%22%20height%3D%22400%22%20preserveAspectRatio%3D%22none%22%20viewBox%3D%220%200%20800%20400%22%3E%3Cpath%20fill%3D%22%23777%22%20d%3D%22M0%200h800v400H0z%22%2F%3E%3Ctext%20x%3D%22285.922%22%20y%3D%22217.7%22%20fill%3D%22%23555%22%20font-family%3D%22Helvetica%2Cmonospace%22%20font-size%3D%2240pt%22%20font-weight%3D%22400%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fsvg%3E">
                                             <div class="carousel-caption d-none d-md-block">
                                             <h5>Second slide label</h5>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                                             </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100" alt="Third slide" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22800%22%20height%3D%22400%22%20preserveAspectRatio%3D%22none%22%20viewBox%3D%220%200%20800%20400%22%3E%3Cpath%20fill%3D%22%23777%22%20d%3D%22M0%200h800v400H0z%22%2F%3E%3Ctext%20x%3D%22285.922%22%20y%3D%22217.7%22%20fill%3D%22%23555%22%20font-family%3D%22Helvetica%2Cmonospace%22%20font-size%3D%2240pt%22%20font-weight%3D%22400%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fsvg%3E">
-                                            <div class="carousel-caption d-none d-md-block">
-                                            <h5>Third slide label</h5>
-                                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                                            </div>
-                                        </div>
+                                        </div> -->
+                                        
                                         </div>
                             
                                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
@@ -311,6 +605,9 @@
 
 
 
+
+
+    <%- include('../charts/net_profit.ejs') %>
     <%- include('../layout/modals.ejs') %>
     <%- include('../layout/adminfooter.ejs') %>
 

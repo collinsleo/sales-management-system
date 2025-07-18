@@ -9,14 +9,25 @@ const db = require('../config/db.js');
 const {check , validationResult, query } = require('express-validator');
 const {notifications, productRestockNotification} = require('../middlewares/notification.js');
 const {isAuthenticated, authorizeRoles, is_staff} = require('../middlewares/authntication.js'); // Assuming you have an authentication middleware
+const {tableCountAnalysis} = require('../middlewares/analysis.js')
+const fs = require('fs');
+const path = require('path');
+const ejs = require('ejs');
 
 
 // show product page
-router.get('/', authorizeRoles('admin','manager','staff'), async (req, res)=>{
+router.get('/', authorizeRoles('admin','manager','staff'), tableCountAnalysis,  async (req, res)=>{
     try {
-        const { rows } = await db.query('SELECT * FROM products ORDER BY id DESC');
+        let productAnalysis = res.locals.tableCount;
+        let product;
+        if(req.user.role == "admin" || req.user.role == "manager"){
+            product = await db.query('SELECT * FROM products ORDER BY id DESC');
+        }else{
+            product = await db.query('SELECT * FROM products WHERE status = $1 ORDER BY id DESC',['active']);
+        }
+
         const categoryQuery = await db.query('SELECT * FROM categories ORDER BY id DESC');
-        res.render('admin/products.ejs', { products: rows, categories: categoryQuery.rows });
+        res.render('admin/products.ejs', { products: product.rows, categories: categoryQuery.rows, productAnalysis });
     } catch (error) {
         console.error('Error fetching products:', error);
         
@@ -203,7 +214,7 @@ router.post('/updateimage/:productId', authorizeRoles('admin', 'manager', 'staff
 router.post('/delete/:id', authorizeRoles('admin', 'manager'), async (req, res)=>{
     try {
         const { id } = req.params;
-        const query = await db.query('DELETE FROM products WHERE id = $1', [id]);
+        const query = await db.query('update products set status =$1 WHERE id = $2', ['inactive', id]);
 
         await activityLog(`product with id: ${id} was deleted`, req)
         req.flash('success_msg', 'Product deleted successfully');
@@ -214,6 +225,24 @@ router.post('/delete/:id', authorizeRoles('admin', 'manager'), async (req, res)=
         return res.redirect('/product');
     }
 })
+
+
+router.get('/resolve/:id', authorizeRoles('admin', 'manager'), async (req, res)=>{
+    try {
+        const { id } = req.params;
+        const query = await db.query('update products set status =$1 WHERE id = $2', ['active', id]);
+
+
+        await activityLog(`product with id: ${id} has been resolved`, req)
+        req.flash('success_msg', 'Product resolved successfully');
+        return res.redirect('/product');
+    } catch (error) {
+        console.error('Error resolving  product:', error);
+        req.flash('error_msg', 'Error resolving product ');
+        return res.redirect('/product');
+    }
+})
+
 
 
 router.get('/purchase',  authorizeRoles('admin', 'manager'), async (req, res)=>{
@@ -418,15 +447,46 @@ router.post('/reversal',  authorizeRoles('admin', 'manager'), async (req, res)=>
             await db.query('UPDATE products SET quantity = $1 WHERE id = $2', [newQuantity, product_id]);
             
             await activityLog(`reversal made on produt with id ${product_id}, please confirm`, req)
-            await productRestockNotification(product_id,'reversal')
+            await productRestockNotification(product_id,action = 'reversal' );
+
+                    
+            // Build the absolute path to your template
+            const templatePath = path.join(__dirname, './views/emails/reversal.html');
+            const template = fs.readFileSync(templatePath, 'utf-8');
+
+            // Render the template with variables
+            const html = ejs.render(template, {
+                username: "Admin / Manager",
+                login_link: 'http://localhost:3000/auth/admin'
+            });
+            // getting all admin and manager emails
+            const getAdmin = await db.query('SELECT email from admins where is_active = $1 and  role = $2 or role = $3 ',[true, 'admin', 'manager'])
+            adminEmails = [];
+            getAdmin.rows.forEach((item)=>{
+              adminEmails.push(item.email)
+            })
+            const adminEmails = adminEmails.join(', '); // "user1@example.com, user2@example.com"
+
+            const mail_sent = await sendEMail ({
+                to: adminEmails,
+                // to: "collinsebuleo@gmail.com",
+                subject: 'Password reset successfully done!',
+                html: html
+            });
+            
+            if(mail_sent == true){
+                req.flash('success_msg', "successfully changed check your email to login")
+            }
+                   
 
             req.flash('success_msg', 'Purchase added successfully.');
             res.redirect('/product/purchase?id='+product_id);
         }
+        
 
     } catch (err) {
-        console.error('Error adding purchase:', err);
-        req.flash('error_msg', 'An error occurred while adding the purchase.');
+        console.error('Error on product reversal:', err);
+        req.flash('error_msg', 'An error occurred while adding a product reversal.');
         res.redirect('/product/purchase?id='+product_id);
     }
 })

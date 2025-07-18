@@ -28,7 +28,7 @@
         <div class="col-md-6 text-capitalize">
             <div class="mt-5 mx-3 " >
                 <div class="h4 text-dark text-bold bg-gray-500 p-3 ">personal date</div>
-                <form action="/setting/update/<%= user.id %>" class="p-3 " method="post" style="border: 1px double dodgerblue;">
+                <form action="/setting/update/<%= user.id %>" class="p-3 text-capitalize" method="post" style="border: 1px double dodgerblue;">
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <input type="text" class="form-control form-control-user reg_input" id="FullName"
@@ -73,7 +73,7 @@
 
             <div class="mt-5 mx-3 " >
                 <div class="h4 text-dark text-bold bg-gray-500 p-3 ">change password</div>
-                <form action="/settings" class="p-3 " method="post" style="border: 1px double dodgerblue;">
+                <form action="/passwordreset" class="p-3 text-capitalize" method="post" style="border: 1px double dodgerblue;">
                     <div class="form-group my-3 row">
                         <div class="col-sm-6 mb-3 d-none ">
                             <input type="email" class="form-control form-control-user reg_input"
@@ -85,11 +85,11 @@
                         </div>
                         <div class="col-sm-6 mb-3 ">
                             <input type="password" class="form-control form-control-user reg_input"
-                                id="password" placeholder="new Password"  name="password">
+                                id="password" placeholder="new Password"  name="newpassword">
                         </div>
                         <div class="col-sm-12">
                             <input type="password" class="form-control form-control-user reg_input"
-                                id="confirm" placeholder="Confirm Password" name="confirm">
+                                id="password" placeholder="Confirm Password" name="comfirmpassword">
                         </div><br>
                             <div class="form-group">
                             <div class="custom-control custom-checkbox small">
@@ -100,33 +100,33 @@
                         </div>
                     </div>
 
-                    <button type = "button" onclick="newUser()"  class="btn btn-primary btn-user btn-block" id="regBtn">
+                    <button type = "submit"   class="btn btn-primary btn-user btn-block" id="regBtn">
                         change parssword
                     </button>   
                 </form>
             </div>
         </div>
     </div>
+    <% if(user.role === 'admin'){ %>
     <div class="row"> 
         <div class="col-md-6">
             <!-- company update -->
 
             <div class="mt-5 mx-3 " >
                 <div class="h4 text-dark text-bold bg-gray-500 py-3">company info</div>
-                <form action="" method="post">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="p-3">
-                                <img src="" width="100px" height="100px" style="border-radius: 50%; background-color: rgb(146, 196, 247);" alt="">
+                                <img src="/uploads/<%= company.image %>" width="100px" height="100px" style="border-radius: 50%; background-color: rgb(146, 196, 247);" alt="">
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <form action="" method="post">
+                            <form action="/company/upload/<%= company.image %>" method="post" class="text-capitalize" enctype="multipart/form-data">
                                 <div class="col-sm-6 my-2">
                                     <label for="company logo">company logo</label>
-                                    <input type="file" class="form-control form-control-user reg_input"
-                                    placeholder="Repeat Password" name="confirm">
-                                    <button class="btn btn-primary">
+                                    <input type="file" name="cImage" class="form-control form-control-user reg_input">
+                                    <input type="hidden" name="company_id" value="<%= user.company_id %>" class="form-control form-control-user reg_input">
+                                    <button type="submit"  onclick="return confirm('Are you sure?')" class="btn btn-primary">
                                         update profile
                                     </button>
                                 </div>
@@ -135,39 +135,47 @@
                         </div>
                     </div>
 
-                </form>
-                <form action="/settings" class="p-3 " enctype="multipart/form-data" method="post" style="border: 1px double dodgerblue;">
+                <form action="/company/add/" class="p-3 text-capitalize" method="post" style="border: 1px double dodgerblue;">
                     <div class="form-group my-3 row">
+                        <div class="col-sm-6 mb-3 mb-sm-0 ">
+                            <label for="comapany name">company id</label>
+                            <input type="text" class="form-control form-control-user reg_input"
+                                id="" placeholder="company Name" value="<%= user.company_id %> "  name="company_id">
+                        </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <label for="comapany name">company name</label>
                             <input type="text" class="form-control form-control-user reg_input"
-                                id="" placeholder="company Name"  name="password">
+                                id="" placeholder="company Name" value="<%= company.name %>" name="name">
                         </div>
+
                         <div class="col-sm-6">
                             <label for="company logo">address</label>
                             <input type="text" class="form-control form-control-user reg_input"
-                               placeholder="Repeat Password" name="confirm">
+                              value="<%= company.location %>" name="address">
                         </div>
+
                         <div class="col-sm-6">
                             <label for="company logo">Email</label>
                             <input type="text" class="form-control form-control-user reg_input"
-                               placeholder="Repeat Password" name="confirm">
+                              value="<%= company.email %>" name="email">
                         </div>
+
                         <div class="col-sm-6">
                             <label for="company logo">website</label>
                             <input type="url" class="form-control form-control-user reg_input"
-                               placeholder="Repeat Password" name="confirm">
-                        </div>
-                           
+                               value="<%= company.website %>" name="website">
+                        </div>      
                     </div>
 
-                    <button type ="submit" class="btn btn-primary btn-user btn-block" id="regBtn">
-                        change parssword
+                    <button type ="submit" class="btn btn-primary btn-user btn-block">
+                        add conpany details
                     </button>   
                 </form>
             </div>
         </div>
     </div>
+    <% } %>
 
 
 

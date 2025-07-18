@@ -1,0 +1,15 @@
+LICENSE AGREEMENT – CodedCraft Sales Management System
+
+Copyright (c) 2025 CodedCraft
+
+This code and application is the intellectual property of CodedCraft and is licensed under the following terms:
+
+1. This software is licensed for **personal use**, academic use, or **single-business use** only.
+2. You **are not allowed** to resell, redistribute, or rebrand this software or its source code without written permission.
+3. You **may not** create a competing product using this codebase.
+4. You **may modify** the code for your own use but must retain credit to the original author.
+5. CodedCraft holds no responsibility for any misuse or data issues caused by this software.
+
+Violation of these terms may result in legal action.
+
+For licensing, partnership, or commercial use, contact: codedcrafter@gmail.com

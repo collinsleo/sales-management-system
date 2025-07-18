@@ -1,0 +1,131 @@
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<script>
+  // Prepare data from your businessAnalysis array
+  const businessAnalysis = <%- JSON.stringify(businessAnalysis) %>;
+
+  // Get current month and year
+    const now = new Date();
+    const currentMonth = now.getMonth(); // 0-indexed (0 = January)
+    const currentYear = now.getFullYear();
+
+    // Filter for only days in the current month
+    const thisMonthData = businessAnalysis.filter(row => {
+    const date = new Date(row.day);
+    return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+    });
+
+    // const businessGrowthnetProfits = [];
+    // let cumulative = 0;
+    // businessGrowth.forEach(row => {
+    // let profit = row.net_profit;
+
+    // cumulative += (profit);
+    // businessGrowthnetProfits.push(cumulative);
+    // });
+
+    
+    // Prepare chart data
+    const labels = thisMonthData.map(row => row.day);
+
+    const netProfits = []
+    thisMonthData.map(row => {
+      let profit = row.gross_profit;
+      netProfits.push(profit)
+    });
+
+    console.log("daily:"+netProfits);
+    
+  // Extract dates and net profits (remove currency formatting for chart)
+//   const labels = businessAnalysis.map(row => row.day);
+  
+
+  console.log(labels, netProfits);
+  
+
+  const DailyProfitctx = document.getElementById('dailyProfitChart').getContext('2d');
+  new Chart(DailyProfitctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Net Profit',
+        data: netProfits,
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0,0,120,0.1)',
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Net Profit (₦)' }
+        },
+        x: {
+          title: { display: true, text: 'Date' }
+        }
+      }
+    }
+  });
+
+
+
+
+
+
+
+  //overall chart business grouth
+const businessGrowth = <%- JSON.stringify(businessAnalysis) %>;
+console.log(businessGrowth);
+
+const businesslabels = businessAnalysis.map(row => row.day);
+
+const businessGrowthnetProfits = [];
+let cumulative = 0;
+businessGrowth.forEach(row => {
+  let profit = row.net_profit;
+  
+  cumulative += (profit);
+  businessGrowthnetProfits.push(cumulative);
+});
+
+const businessGrowthctx = document.getElementById('netProfitChart').getContext('2d');
+new Chart(businessGrowthctx, {
+  type: 'line',
+  data: {
+    labels: businesslabels,
+    datasets: [{
+      label: 'Cumulative Net Profit',
+      data: businessGrowthnetProfits,
+      borderColor: 'blue',
+      backgroundColor: 'rgba(0,0,120,0.1)',
+      fill: true,
+      tension: 0.3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: true }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Net Profit (₦)' }
+      },
+      x: {
+        title: { display: true, text: 'Date' }
+      }
+    }
+  }
+});
+</script>

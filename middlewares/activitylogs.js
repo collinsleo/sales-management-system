@@ -4,7 +4,7 @@ const activityLog = async function(action, req){
     let user_id ="unknown"; let user_role = "unknown";
 
     if(req.user){
-        user_id = req.user.id ;
+        user_id = Number(req.user.id) ;
         user_role = req.user.role ;
     }
     

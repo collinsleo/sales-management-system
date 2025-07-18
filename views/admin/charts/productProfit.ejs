@@ -1,0 +1,131 @@
+    <%- include('../../layout/adminheader.ejs') %>
+
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- analysis-->
+                    <div class="row my-3">
+                        <div class="col-md-3 ">
+                             <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#categoryModal" >
+                                <i class="fas fa-plus  fa-sm fa-fw mr-2 text-gray-400"></i>
+                                New category
+                            </button>
+                             <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatecategoryModal" >
+                                <i class="fas fa-plus  fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Edit category
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                          <% if(error_msg  && error_msg.length > 0 ){ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Oh no!</strong> <%= error_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                          
+                          <% if(success_msg  && success_msg.length > 0 ){ %>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Awesome!</strong> <%= success_msg %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                          <%} %>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary"> Track Each Product Profit </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>cathegory</th>
+                                            <th>quantity</th>
+                                            <th>Cost</th>
+                                            <th>profit/ <span class="text-danger">loss</span> </th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>cathegory</th>
+                                            <th>quantity</th>
+                                            <th>Cost</th>
+                                            <th>profit/ <span class="text-danger">loss</span> </th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% if(productProfit && productProfit.length > 0){ %>
+                                            <% productProfit.forEach(product => { %>
+                                                <tr>
+                                                    <td><%= product.name %></td>
+                                                    <td><%= product.cathegory %></td>
+                                                    <td><%= product.quantity %></td>
+                                                    <td><%= product.cost %></td>
+                                                    <% if(Number(product.profit) < 0) {%>
+                                                        <td class="text-danger"><%= product.profit %></td>
+                                                    <%}else{%>
+                                                        <td><%= product.profit %></td>
+                                                    <%}%>                                                    
+                                                </tr>
+                                            <% }) 
+                                        }else{%>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No categories found</td>
+                                                </tr>
+                                        <% } %>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website <code>  </code></span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <!--  Product category Modal-->
+    <%- include('../../layout/modals.ejs') %>
+    <%- include('../../layout/adminfooter.ejs') %>
+
+

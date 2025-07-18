@@ -21,7 +21,7 @@
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
                     </div>
-                    <div class="sidebar-brand-text mx-3">ogbu-oge <sup>shopping</sup></div>
+                    <div class="sidebar-brand-text mx-3"><%=  company.name %> <sup>shopping</sup></div>
                 </a>
             </div>
             <ul class="d-flex" style="list-style: none; flex-wrap: wrap;"  >
@@ -42,7 +42,7 @@
         <div class="col-md-4 text-center">
             <div class="card">
                 <div class="card-header " style="background: navy; color: aliceblue; font-weight: bolder;">
-                    <h4>OGBU-OGE</h4>
+                    <h4><%= company.name %></h4>
                 </div>
                 <div class="card-body">
                     <h1 style="color: navy; font-weight: bolder;">RECEIPT</h1>
@@ -60,8 +60,8 @@
                                 userProducts.forEach((product)=>{ %>
                                     <tr>
                                         <td> <%= product.product_name %></td>
-                                        <td>NGN <%= product.selling_price %></td>
-                                        <td>NGN <%= product.total_price %></td>
+                                        <td> <%= Number(product.selling_price).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></td>
+                                        <td> <%= Number(product.total_price).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></td>
                                     </tr>
                              <%   })
                             }else{%>
@@ -75,7 +75,7 @@
                             <tr>
                                 <td></td>
                                 <td>Subtotal:</td>
-                                <td>NGN <%= sales.total_amount %></td>
+                                <td> <%= Number(sales.total_amount).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -88,10 +88,10 @@
                 <div class="card-footer " style="background: navy; color: aliceblue;">
                     <div class="row">
                         <div class="col-6">AMOUNT PAID</div>
-                        <div class="col-6">NGN <%= sales.total_amount %></div>
+                        <div class="col-6"> <%= Number(sales.total_amount).toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }) %></div>
                     </div>
                 </div>
-                <h4 style="color: navy; font-weight: bolder;" class="p-3" >OGBU-OGE</h4>
+                <h4 style="color: navy; font-weight: bolder;" class="p-3" ><%= company.name %></h4>
             </div>
         </div>
         <div class="col-md-4"></div>

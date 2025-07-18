@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        text-transform: capitalize;
+        color: black;
+      }
+      button{
+        padding: 5px;
+        outline: none;
+        border-radius: 3px;
+        color: azure;
+        background-color: dodgerblue;
+      }
+      h2{
+        font-weight: bold;
+        padding: 10px;
+        color: dodgerblue;
+      }
+      .title{
+        color: dodgerblue;
+        font-weight: bold;
+        font-size: 18px;
+      }
+    </style>
+</head>
+<body>
+  <h2>Ogbu oge</h2><hr><br><br>
+  <p>Congratulation on you new Acount </p><br>
+  
+  <h3>Hello <%= username %></h3>
+  <p>
+    congratulations, you now have an account on Ogbu-oge Store.<br>
+    Click the button to login:
+    <a href="<%=  login_link %>">
+      <button>Login</button>
+    </a>
+  </p>
+  
+</body>
+</html>

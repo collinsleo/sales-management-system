@@ -42,8 +42,8 @@ router.post('/', authorizeRoles('admin','manager'), validateSupplyer, async (req
 
     try {
                
-        await db.query('INSERT INTO suppliers (name, email, phone, location, company, product_id) VALUES ($1, $2, $3, $4, $5, $6)', 
-            [sName, sEmail, sPhone, sAddress, sCompany, product]);
+        await db.query('INSERT INTO suppliers (name, email, phone, location, company) VALUES ($1, $2, $3, $4, $5)', 
+            [sName, sEmail, sPhone, sAddress, sCompany]);
         req.flash('success_msg', 'Supplyer added successfully.');
         res.redirect('/supplyer');
     } catch (error) {
