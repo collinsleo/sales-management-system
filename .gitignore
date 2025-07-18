@@ -1,7 +1,7 @@
 node_modules/
 .env
 *.log
-/config/
+
 dist/ 
 test.js
 /workflow.txt
