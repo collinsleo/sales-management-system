@@ -1,45 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--   -->
+ <!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      *{
-        text-transform: capitalize;
-        color: black;
-      }
-      button{
-        padding: 5px;
-        outline: none;
-        border-radius: 3px;
-        color: azure;
-        background-color: dodgerblue;
-      }
-      h2{
-        font-weight: bold;
-        padding: 10px;
-        color: dodgerblue;
-      }
-      .title{
-        color: dodgerblue;
-        font-weight: bold;
-        font-size: 18px;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <title>Sales Management System Notification</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f7fa;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .header {
+      background-color: #007bff;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+    }
+    .header h2 {
+      margin: 0;
+    }
+    .content {
+      padding: 20px 0;
+      color: #333333;
+    }
+    .content h3 {
+      margin-top: 0;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: #777;
+      text-align: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <h2>Ogbu oge</h2><hr><br><br>
-  <p>Congratulation on you new Acount </p><br>
-  
-  <h3>Hello <%= username %></h3>
-  <p>
-    congratulations, you now have an account on Ogbu-oge Store.<br>
-    Click the button to login:
-    <a href="<%=  login_link %>">
-      <button>Login</button>
-    </a>
-  </p>
-  
+  <div class="container">
+    <div class="header">
+      <h2>Codecraft Store</h2>
+    </div>
+
+    <div class="content">
+      <h3>Hello <%= username || 'User' %>,</h3>
+      <p>Thank you for signing in to our Sales Management System.</p>
+      <p>This is a shared demo version. If you want your own private version with full control, contact the developer below.</p>
+
+      <a href="https://wa.link/iyh9mj" class="btn">Request Private Version</a> <a href="<%= login_link %>" class="btn">login</a> 
+
+      <p style="margin-top: 30px;">If you have any questions, feel free to </p>
+      <a href="https://wa.link/iyh9mj" class="btn">contact us now</a>
+    </div>
+
+    <div class="footer">
+      &copy; <%=  new Date().getFullYear() %> YourCompany. All rights reserved.
+    </div>
+  </div>
 </body>
 </html>

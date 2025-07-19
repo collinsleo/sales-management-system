@@ -584,6 +584,34 @@
                 </div>
                 <!-- /.container-fluid -->
 
+                <!-- ================================popup====================== -->
+                <!-- ================================popup====================== -->
+                 <div id="demoPopup" class="modal" tabindex="-1" role="dialog" style="display: block;">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content" style="border-radius: 15px;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Shared Demo Version</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>⚠️ You are currently using the shared demo of this Sales Management System.</p>
+                            <p>For your own private version (with your business name, products, staff login, and reports), contact the developer below.</p>
+                            <p><strong>Private versions</strong> can be hosted online or installed offline for your shop.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="https://wa.link/iyh9mj" class="btn btn-success">Contact Developer</a>
+                            <button type="button" class="btn btn-secondary" onclick="closeDemoPopup()">Continue</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <script>
+                    function closeDemoPopup() {
+                        document.getElementById('demoPopup').style.display = 'none';
+                    }
+                    </script>
+
+
             </div>
             <!-- End of Main Content -->
 

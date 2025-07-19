@@ -171,7 +171,7 @@ app.use(async (req,res,next)=>{
             email:"",
             location:"",
             website:"",
-            image:"company_image.png",
+            image:"/uploads/default/company_image.jpg",
           };
         if(companyQuery.rows.length > 0){
           companyDetail = companyQuery.rows[0];
