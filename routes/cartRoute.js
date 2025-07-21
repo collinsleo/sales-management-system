@@ -150,11 +150,7 @@ router.post('/checkout', isAuthenticated, [body('payment').notEmpty().withMessag
 
 router.get('/confirm', authorizeRoles('admin', 'manager', 'cashier'), (req,res)=>{
     const {payment}=req.query;
-    
-
-   
-
-    res.render('admin/confirmPayment.ejs', {paymentMethod : payment})
+    res.render('admin/confirmpayment.ejs', {paymentMethod : payment})
 })
 
 router.post('/confirm', authorizeRoles('admin', 'manager', 'cashier'), async(req,res)=>{

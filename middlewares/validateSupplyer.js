@@ -8,11 +8,6 @@ const validateSupplyer = [
         .notEmpty().withMessage('Supplyer name is required.')
         .isLength({ max: 255 }).withMessage('Name must not exceed 255 characters.')
         .isLength({ min: 2 }).withMessage('Name must not be less 3 characters.'),
-    body('sEmail')
-        .notEmpty().withMessage('Supplyer email is required.')
-        .isEmail().withMessage('Invalid email format.')
-        .isLength({ max: 255 }).withMessage('Email must not exceed 255 characters.')
-        .normalizeEmail(),
     body('sPhone')
         .notEmpty().withMessage('Supplyer phone is required.')
         .isMobilePhone('any').withMessage('Invalid phone number format.')

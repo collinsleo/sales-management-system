@@ -19,13 +19,13 @@ function filefilter(req, file,cb){
     if(extName && mimetype){
         return cb(null, true);
     } else {
-        cb('File upload only supports ' + String(allowedTypes).replaceAll("|", " - "), false)
+        cb('File upload only supports  ' + String(allowedTypes).replaceAll("|", " - "), false)
     }   
 }
 
 const upload = multer({
     storage:storage,
-    limits:{fileSize: 2 * 1024 * 1024}, // 2MB
+    limits:{fileSize: 5 * 1024 * 1024}, // 5MB
     fileFilter:filefilter
 });
 
