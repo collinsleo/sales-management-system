@@ -10,11 +10,11 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEMail = async ({ to, subject, html }) => {
-    console.log(process.env.EMAIL_USER);
+    // console.log(process.env.EMAIL_USER);
     
     try {
         const info = await transporter.sendMail({
-            from: `"Ogbu-oge Store" <${process.env.EMAIL_USER}>`,
+            from: `"Nation-city Store" <${process.env.EMAIL_USER}>`,
             to,
             subject,
             html,

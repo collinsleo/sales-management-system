@@ -61,7 +61,8 @@ app.use(passport.session())//Middleware that will restore login state from a ses
 passport.use(new localStrategy (
   {usernameField: 'username', passwordField: 'password'},
   async (username, password, done)=>{
-      await db.query("SELECT * FROM admins WHERE email = $1 OR username = $2", [username, username], (err, result) => {
+      await db.query(
+        "SELECT * FROM admins WHERE email = $1 OR username = $2", [username, username], (err, result) => {
         if(err){
           console.error("Error: failed to authenticate user through passport", err.message);
           return done("something went wrong, please try again");
@@ -81,9 +82,7 @@ passport.use(new localStrategy (
           return done(null, user);
         }
       })
-
   } 
-
 ))
 
 // Serialize and deserialize user for session management
@@ -92,7 +91,7 @@ passport.serializeUser((user, done) => {
   db.query("UPDATE admins SET last_login = NOW() WHERE id = $1", [user.id], (err) => {
       if (err) {
           console.error("Error: failed to update last logged in time", err.message);
-          return done(err);
+          return done(err.message);
       }
     })
 
@@ -265,9 +264,6 @@ async function stockNotification(db=db){
       adminEmails.push(item.email)
     })
     const emailString = adminEmails.join(', ')
-
-
-
 
     const lowstockquery = await db.query(
       "Select quantity, threshold, id, low_stock from products"
@@ -491,10 +487,6 @@ app.get('/dashboard', isAuthenticated, profitAnalysis,tableCountAnalysis, hotPro
     res.locals.currentUser = req.user;
     
   }
-// console.log(tableAnalysis);
-
-  
-
 
   res.render('admin/index.ejs',{businessAnalysis, tableAnalysis, bestproducts, currentUser:req.user})
 })
@@ -540,11 +532,9 @@ app.get('/action/:id', async(req, res) => {
 });
 
 // =====404 page========
-app.get('*', (req, res) => {
-    res.status(404).render('404.ejs');
-});
-
-
+// app.get('*', (res, req) => {
+//     res.status(404).render('404.ejs');
+// });
 
 
 

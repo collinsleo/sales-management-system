@@ -105,7 +105,7 @@ function newProduct(){
     const unitPerCartonEl = document.getElementById("unitPerCarton").value;
     const cartonPriceEl = document.getElementById("cartonPrice").value;
     const unitCostPriceEl = document.getElementById("unitCostPrice").value;
-    const quantityEl = document.getElementById("quantity").value;
+    // const quantityEl = document.getElementById("quantity").value;
     const tresholdEl = document.getElementById("treshold").value;
     const regBtn = document.getElementById("addNewProduct");
     let error = "";
@@ -124,11 +124,7 @@ function newProduct(){
         error = "invalid input for  carton selling price"
     }else if(unitCostPriceEl.trim() == "" || Number (unitCostPriceEl) == NaN){
         error = "invalid input for unit cost price"
-    }else if(quantityEl.trim() == "" || Number (quantityEl) == NaN){
-        error = "invalid input for quantity"
-    }else if(tresholdEl.trim() == "" || Number (quantityEl) == NaN){
-        error = "invalid input for treshold"
-    }else if(tresholdEl.trim() == "" || Number (quantityEl) == NaN){
+    }else if(tresholdEl.trim() == ""){
         error = "invalid input for treshold"
     }else{  
         regBtn.type = "submit";

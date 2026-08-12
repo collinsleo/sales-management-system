@@ -17,27 +17,66 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto')
 
+const appLunchValidator = require('../middlewares/validateAppLunch.js');
+// ==========================
+//          app_lunch
+// ==========================
+
+router.get('/app_lunch', (req,res)=>{
+    res.render("auth/app_lunch.ejs")
+})
+
+router.post('/app_lunch', appLunchValidator, async(req,res)=>{
+    
+    const {fname, username, email, mobile, password, confirm} = req.body;
+
+    const errors = validationResult(req);
+    const error = [];
+    if(!errors.isEmpty()){
+        errors.array().forEach((err) => {
+            error.push(err.msg);
+        });
+        req.flash("error_msg", error);
+        return res.redirect("/app_lunch");
+    }
+    if(password !== confirm){
+        req.flash("error_msg", "Password Mismatch");
+        return res.redirect("/app_lunch");
+    }
+
+    const check_admin = await db.query(
+        'select * from admins'
+    )
+    if(check_admin.rows.length === 0){
+        const hash_password = bcrypt.hashSync(password, 10);
+
+        await db.query(
+            'insert into admins (fullname, username, email, phone, role, password) values ($1, $2, $3, $4,$5, $6)',
+            [fname, username, email, mobile, "admin", hash_password]
+        );  
+    }
+
+    res.redirect('/')
+
+})
 
 
 // =================================
 //             admin  register
 // =================================
 
-// router.get("/admin_signup",authorizeRoles('admin'), (req, res)=>{
-router.get("/admin_signup", (req, res)=>{
+router.get("/admin_signup",authorizeRoles('admin'), (req, res)=>{
     res.render("auth/admin_signup.ejs")
-    
 })
 
-// router.post('/admin_signup', authorizeRoles('admin'), validateAdminSignup, async(req,res)=>{
-router.post('/admin_signup', validateAdminSignup, async(req,res)=>{
+router.post('/admin_signup', authorizeRoles('admin'), validateAdminSignup, async(req,res)=>{
     const {fname, username, role, gender, email, mobile, address, password, confirm } = req.body
-    let {company_id, company_name, company_email } = ["0", 'company', "companyemai@gmail.com"];
-    if(req.session.company){
-        company_id = req.session.company.id;
-        company_name = req.session.company.name;
-        company_email = req.session.company.email;
-    }
+    // let {company_id, company_name, company_email } = ["0", 'company', "companyemai@gmail.com"];
+    // if(req.session.company){
+    //     company_id = req.session.company.id;
+    //     company_name = req.session.company.name;
+    //     company_email = req.session.company.email;
+    // }
 
 
     const errors = validationResult(req);
@@ -122,8 +161,18 @@ router.post('/admin_signup', validateAdminSignup, async(req,res)=>{
 //          admin-login
 // ==========================
 
-router.get('/',(req,res)=>{
-    return res.redirect('/logout')
+router.get('/', async(req,res)=>{
+    //check for empty database
+    const check_admin = await db.query(
+        'select * from admins'
+    )
+    if(check_admin.rows.length === 0){
+       return res.redirect('/app_lunch') 
+    }
+
+    return res.redirect('/auth/admin') 
+
+    // return res.render('auth/admin_login.ejs',{error: req.flash('error')})
 });
 
 
@@ -152,16 +201,12 @@ router.post('/auth/admin',
     })
 );
 
+// ==========================
+//          admin-logout
+// ==========================
+
 router.get('/logout', (req, res) => {
-    let path ="/auth/admin";
-    
-    // if(req.user !== 'undefined'){
-    //     path = '/auth/admin';
-    // }else if(req.user.role !== 'user'){
-    //     path = '/auth/admin';
-    // }else{
-    //     path = '/login';
-    // }    
+    let path ="/auth/admin";    
     req.logout(function(err) {
       if (err) {
         return next(err);
@@ -173,6 +218,7 @@ router.get('/logout', (req, res) => {
         res.redirect(path); // Redirect to login or homepage
       });
     });
+
   });
   
 
@@ -325,12 +371,19 @@ function multerErrorHadling(req, res, next) {
     });  
 }
 
+
 //update product image 
 router.post('/company/upload/', authorizeRoles('admin'), multerErrorHadling, async(req, res)=>{
     try{
         const {company_id} = req.body;
        
         const image = req.file ? req.file.filename : null;
+
+        if(!company_id){
+             req.flash('error_msg', 'please register your company');
+            return res.redirect('/setting');
+        }
+        
 
         const checkuser = await db.query(
             'SELECT * FROM admins WHERE id = $1 and role = $2',[req.user.id, 'admin']   
@@ -344,35 +397,27 @@ router.post('/company/upload/', authorizeRoles('admin'), multerErrorHadling, asy
             )
 
             if(checkcompany.rows.length <= 0){
+                req.flash('error_msg', 'Please fill in your company detail fist');
+                return res.redirect('/setting');
 
-                const query = await db.query(
-                    'INSERT INTO company (image) VALUES ($1) RETURNING id',
-                    [image]
-                )
+            }
+            
+            if(checkcompany.rows.length === 1){
 
-                const my_company_id = query.rows[0].id
-                
-                await db.query(
-                    'Update  admins set company_id = $1  where id = $2',
-                    [my_company_id, req.user.id]
-                )
-
-                await activityLog(`company image added by ${req.user.username} with id: ${req.user.id}`, req)
-                req.flash('success_msg', 'company logo successfully added');
-
-            }else if(checkcompany.rows.length === 1){
                 const query = await db.query(
                     'Update  company set image = $1  where id = $2',
                     [image, company_id]
                 )
                 await activityLog(`company image updated by ${req.user.username} with id: ${req.user.id}`, req)
                 req.flash('success_msg', 'company logo successfully changed');
-            }else{
-                req.flash('error_msg', 'something went wrong');
+                return res.redirect('/setting');
 
             }
-
+            
+            
+            req.flash('error_msg', 'something went wrong');
             return res.redirect('/setting');
+            
         }
     }catch(err){
         console.error('Error company request sent returns error: ', err.message)
@@ -395,21 +440,20 @@ router.post('/company/add/', authorizeRoles('admin'),  async(req, res)=>{
             return res.redirect('/setting');
         }else{
             const checkcompany = await db.query(
-            'SELECT * FROM company WHERE id = $1',[company_id]   
+            'SELECT * FROM company WHERE id = $1',[checkuser.rows[0].company_id]   
             )
-
             if(checkcompany.rows.length <= 0){
 
                 const query = await db.query(
-                    'INSERT INTO company (name, email, location, website) VALUES ($1, $2, $3, $4) RETURNING id',
-                    [name, email, address, website]
+                    'INSERT INTO company (name, email, location, website, admin_id) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+                    [name, email, address, website, checkuser.rows[0].id]
                 )
 
                 const my_company_id = query.rows[0].id
                 
                 await db.query(
                     'Update  admins set company_id = $1  where id = $2',
-                    [my_company_id, req.user.id]
+                    [my_company_id, checkuser.rows[0].id]
                 )
 
                 await activityLog(`company detail created by ${req.user.username} with id: ${req.user.id}`, req)
@@ -715,7 +759,7 @@ router.post('/setting/update/:userId', isAuthenticated, adminUpdateValidator, as
         const mail_sent = await sendEMail ({
             // to: email,
             to: "collinsebuleo@gmail.com",
-            subject: 'Profile Update on Ogbu-oge store!',
+            subject: 'Profile Update on Nation-city store!',
             html: html
         });
 
@@ -784,22 +828,5 @@ router.get('/users', isAuthenticated, async(req,res)=>{
         
     }
 })
-
-// =================================
-//             users  register
-// =================================
-
-router.get("/register", (req, res)=>{
-    res.render("auth/register.ejs")
-})
-
-// ==========================
-//          login
-// ==========================
-router.get("/login", (req, res)=>{
-    res.render("auth/login.ejs")
-
-})
-
 
 module.exports = router;

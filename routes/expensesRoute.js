@@ -70,8 +70,8 @@ router.post('/', authorizeRoles('admin', 'manager'), validateExpenses,  async(re
             return res.redirect('/expenses');
         }
         // Insert sale into the database
-        const expenceQuery = await db.query('INSERT INTO expenses (amount, reason, created_at, user_id) VALUES ($1, $2, $3, $4) returning id', 
-            [amount, reason, spent_at, user_id]);
+        const expenceQuery = await db.query('INSERT INTO expenses (amount, reason, created_at, status, user_id) VALUES ($1, $2, $3, $4, $5) returning id', 
+            [amount, reason, spent_at, 'active', user_id]);
         
         const expence_id = expenceQuery.rows[0].id;
         const message=`new expence added with id: ${expence_id}, amount: ${amount}, reason: ${reason}`
@@ -157,7 +157,7 @@ router.post('/update/:id', authorizeRoles('admin', 'manager'), validateExpenses,
         await db.query('Update expenses set amount = $1, reason = $2, created_at = $3, user_id = $4 WHERE id = $5', 
             [amount, reason, spent_at, user_id, id]);
         
-        await activityLog(`new expence update with id: ${expence_id} and amount${amount}`, req)
+        await activityLog(`new expence update with id: ${id} and amount${amount}`, req)
         req.flash('success_msg', 'Sale added successfully.');
         res.redirect('/expenses');
         

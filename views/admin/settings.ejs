@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <form action="/company/upload/<%= company.image %>" method="post" class="text-capitalize" enctype="multipart/form-data">
+                            <form action="/company/upload/" method="post" class="text-capitalize" enctype="multipart/form-data">
                                 <div class="col-sm-6 my-2">
                                     <label for="company logo">company logo</label>
                                     <input type="file" name="cImage" class="form-control form-control-user reg_input">
@@ -140,7 +140,7 @@
                         <div class="col-sm-6 mb-3 mb-sm-0 ">
                             <label for="comapany name">company id</label>
                             <input type="text" class="form-control form-control-user reg_input"
-                                id="" placeholder="company Name" value="<%= user.company_id %> "  name="company_id">
+                                id="" placeholder="company Name" value="<%= user.company_id || 1 %> "  name="company_id">
                         </div>
 
                         <div class="col-sm-6 mb-3 mb-sm-0">
@@ -169,7 +169,7 @@
                     </div>
 
                     <button type ="submit" class="btn btn-primary btn-user btn-block">
-                        add conpany details
+                        Add conpany details
                     </button>   
                 </form>
             </div>

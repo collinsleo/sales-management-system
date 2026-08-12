@@ -90,7 +90,7 @@ router.post('/add',
                 }
             });
 
-            const { pName, cartonCostPrice, cartonSellingPrice, unitPerCarton, unitCostPrice, unitSellingPrice, treshold, quantity,  category} = req.body;
+            const {pName, cartonCostPrice, cartonSellingPrice, unitPerCarton, unitCostPrice, unitSellingPrice, treshold, category} = req.body;
             const image = req.file ? req.file.filename : null;
             // Generate barcode
             const barcode = barcodeGenerator(req, res);
@@ -109,8 +109,8 @@ router.post('/add',
 
                 // Insert product into the database
                 const query = await db.query(
-                    'INSERT INTO products (name, barcode, carton_cost_price, carton_selling_price, unit_per_carton, unit_cost_price, unit_selling_price, threshold, quantity, image, category_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
-                    [pName, barcode, cartonCostPrice, cartonSellingPrice, unitPerCarton, unitCostPrice, unitSellingPrice, treshold, quantity, image, category]
+                    'INSERT INTO products (name, barcode, carton_cost_price, carton_selling_price, unit_per_carton, unit_cost_price, unit_selling_price, threshold, image, category_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+                    [pName, barcode, cartonCostPrice, cartonSellingPrice, unitPerCarton, unitCostPrice, unitSellingPrice, treshold, image, category]
                 )
 
                 const id = await query.rows[0].id;
@@ -351,8 +351,7 @@ router.post('/purchase', authorizeRoles('admin', 'manager'), validatePurchase, a
             if( unit_cost_price < product.rows[0].unit_cost_price){
                //notify for price decrease
                 const message = `The cost price of ${product.rows[0].name} has decreased from ${product.rows[0].unit_cost_price} to ${unit_cost_price}. Please review the new price.`;
-                await notifications(product_id, 'Price Decrease', message, 'price change', 'products');
-            }
+                }
 
                         
             // insert purchase into the database
@@ -369,6 +368,21 @@ router.post('/purchase', authorizeRoles('admin', 'manager'), validatePurchase, a
         
             await activityLog(`new product purchase made on produt id ${product_id}, please confirm`, req)
             await productRestockNotification(product_id)
+
+             //---- Insert sale into the database
+             const amount = Number(carton) *  Number(unit_per_carton) * Number(unit_cost_price)
+             const reason = `I purchased ${ product.rows[0].name} at the price of ${amount}`;
+             const user_id = req.user.id;
+             const spent_at = new Date();
+            const expenceQuery = await db.query('INSERT INTO expenses (amount, reason, created_at, status, user_id) VALUES ($1, $2, $3, $4, $5) returning id', 
+                [amount, reason, spent_at, 'active', user_id]);
+            
+            const expence_id = expenceQuery.rows[0].id;
+            const message=`new expence added with id: ${expence_id}, amount: ${amount}, reason: ${reason}`
+
+            await activityLog(message, req)
+            //-----
+
             req.flash('success_msg', 'Purchase added successfully.');
             res.redirect('/product/purchase?id='+product_id);
         }
