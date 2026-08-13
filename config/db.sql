@@ -34,7 +34,8 @@ is_active boolean default True,
 last_login timestamp,
 created_at timestamp default CURRENT_TIMESTAMP,
 updated_at timestamp default CURRENT_TIMESTAMP,
-password varchar(255) not null
+password varchar(255) not null,
+token text
 
 );
 
@@ -105,6 +106,7 @@ CREATE TABLE sales (
 
 CREATE TABLE company (
     id SERIAL PRIMARY KEY,
+    admin_id INT REFERENCES admins(id) ON DELETE CASCADE,
     name VARCHAR(200) ,
     email VARCHAR(200)  ,
     location VARCHAR(100)  ,

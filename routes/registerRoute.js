@@ -71,12 +71,12 @@ router.get("/admin_signup",authorizeRoles('admin'), (req, res)=>{
 
 router.post('/admin_signup', authorizeRoles('admin'), validateAdminSignup, async(req,res)=>{
     const {fname, username, role, gender, email, mobile, address, password, confirm } = req.body
-    // let {company_id, company_name, company_email } = ["0", 'company', "companyemai@gmail.com"];
-    // if(req.session.company){
-    //     company_id = req.session.company.id;
-    //     company_name = req.session.company.name;
-    //     company_email = req.session.company.email;
-    // }
+    let {company_id, company_name, company_email } = ["0", 'company', "companyemai@gmail.com"];
+    if(req.session.company){
+        company_id = req.session.company.id;
+        company_name = req.session.company.name;
+        company_email = req.session.company.email;
+    }
 
 
     const errors = validationResult(req);
