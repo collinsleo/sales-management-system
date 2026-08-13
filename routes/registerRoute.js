@@ -18,6 +18,7 @@ const path = require('path');
 const crypto = require('crypto')
 
 const appLunchValidator = require('../middlewares/validateAppLunch.js');
+const { log } = require('console');
 // ==========================
 //          app_lunch
 // ==========================
@@ -79,6 +80,8 @@ router.post('/admin_signup', authorizeRoles('admin'), validateAdminSignup, async
     }
 
 
+    console.log(req.session);
+    
     const errors = validationResult(req);
     const error = [];
     if(!errors.isEmpty()){
